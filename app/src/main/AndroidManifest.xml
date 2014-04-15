@@ -11,6 +11,10 @@
             android:name="com.fontmessaging.fontfun.app.MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
+        <activity
+            android:name="com.fontmessaging.fontfun.app.DrawingActivity"
+            android:label="@string/title_activity_drawing" >
+        </activity>
     </application>
 
 </manifest>
