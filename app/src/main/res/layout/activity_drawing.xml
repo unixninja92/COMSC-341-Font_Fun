@@ -1,13 +1,91 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="${packageName}.${activityClass}">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="1">
 
-    <TextView
-        android:text="Hi!!"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:layout_weight="0.01"
+        android:weightSum="1">
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="New Text"
+            android:id="@+id/textView"
+            android:layout_weight="0.17"
+            android:textSize="20dp"
+            android:textAlignment="center" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.17" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/textView2"
+            android:layout_weight="0.17"
+            android:textAlignment="center" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.32" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button"
+            android:layout_weight="0.17" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:weightSum="1">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:id="@+id/imageButton"
+            android:layout_weight="0.30" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:id="@+id/imageButton2"
+            android:layout_weight="0.30" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:id="@+id/imageButton3"
+            android:layout_weight="0.30" />
+
+        <Spinner
+            android:layout_width="0.30dp"
+            android:layout_height="180dp"
+            android:id="@+id/spinner"
+            android:layout_weight="0.3" />
+    </LinearLayout>
+
+    <SurfaceView
+        android:layout_width="591dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/surfaceView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1.05" />
+</LinearLayout>
