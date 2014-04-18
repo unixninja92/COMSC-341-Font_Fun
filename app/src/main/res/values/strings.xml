@@ -6,5 +6,9 @@
     <string name="hello_world">Hello world!!!</string>
     <string name="greeting_2">Hi</string>
     <string name="title_activity_drawing">DrawingActivity</string>
+    <string name="pen">Pen</string>
+    <string name="brush">Brush</string>
+    <string name="eraser">Eraser</string>
+    <string name="save">Save</string>
 
 </resources>
