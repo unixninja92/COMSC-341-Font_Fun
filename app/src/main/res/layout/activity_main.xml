@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
+                android:text="@string/fonts"
                 android:id="@+id/textView"
                 android:gravity="center_vertical|center_horizontal"
                 android:textAlignment="gravity" />
@@ -34,7 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="53dp"
                 android:id="@+id/imageButton"
-                android:layout_weight="0.05" />
+                android:layout_weight="0.05"
+                android:onClick="createFont" />
         </LinearLayout>
 
         <ListView
@@ -60,8 +61,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textView2" />
+                android:text="@string/documents"
+                android:id="@+id/textView2"
+                android:gravity="center_vertical" />
 
             <Space
                 android:layout_width="20px"
