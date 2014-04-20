@@ -70,16 +70,14 @@
             android:layout_height="match_parent"
             android:id="@+id/imageButton2"
             android:layout_weight="0"
-            android:contentDescription="@string/brush"
-            android:src="@drawable/icon-24979_640" />
+            android:contentDescription="@string/brush"/>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/imageButton3"
             android:layout_weight="0"
-            android:contentDescription="@string/eraser"
-            android:src="@drawable/icon-24979_640" />
+            android:contentDescription="@string/eraser" />
 
         <Spinner
             android:layout_width="0dp"
@@ -88,10 +86,11 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <SurfaceView
+    <com.fontmessaging.fontfun.app.DrawingView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/surfaceView"
+        android:id="@+id/drawingView"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="0xFFFFFFFF"/>
 </LinearLayout>
