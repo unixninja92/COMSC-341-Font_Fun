@@ -1,5 +1,6 @@
 package com.fontmessaging.fontfun.app;
 
+import android.os.Debug;
 import android.view.View;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -33,7 +34,7 @@ public class DrawingView extends View {
     //get drawing area setup for interaction
         drawPath = new Path();
         drawPaint = new Paint();
-        drawPaint.setColor(0x000000);
+        drawPaint.setColor(0xFF000000);
         drawPaint.setAntiAlias(true);
         drawPaint.setStrokeWidth(20);
         drawPaint.setStyle(Paint.Style.STROKE);

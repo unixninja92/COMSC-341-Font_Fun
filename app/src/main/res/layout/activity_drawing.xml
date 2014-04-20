@@ -92,5 +92,5 @@
         android:id="@+id/drawingView"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
-        android:background="0xFFFFFFFF"/>
+        android:background="#FFFFFFFF"/>
 </LinearLayout>
