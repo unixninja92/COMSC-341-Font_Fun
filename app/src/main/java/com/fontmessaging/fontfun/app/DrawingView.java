@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 
 /**
  * Created by charles on 4/20/14.
- * http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
+ * Based on http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
  */
 public class DrawingView extends View {
 
@@ -24,6 +24,8 @@ public class DrawingView extends View {
     private Canvas drawCanvas;
     //canvas bitmap
     private Bitmap canvasBitmap;
+
+    int fontName;
 
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);

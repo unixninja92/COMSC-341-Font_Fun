@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="New Text"
+            android:text="Font Name"
             android:id="@+id/textView"
             android:layout_weight="0.17"
             android:textSize="20dp"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text="Current Letter"
             android:id="@+id/textView2"
             android:layout_weight="0.17"
             android:textAlignment="center" />
@@ -58,26 +58,30 @@
         android:layout_weight="0.02"
         android:weightSum="1">
 
-        <ImageButton
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/imageButton"
             android:layout_weight="0"
-            android:contentDescription="@string/pen" />
+            android:contentDescription="@string/pen"
+            android:text="@string/pen"
+            android:onClick="penSelect"/>
 
-        <ImageButton
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/imageButton2"
             android:layout_weight="0"
-            android:contentDescription="@string/brush"/>
+            android:text="@string/brush"
+            android:onClick="brushSelect"/>
 
-        <ImageButton
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/imageButton3"
             android:layout_weight="0"
-            android:contentDescription="@string/eraser" />
+            android:text="@string/eraser"
+            android:onClick="eraserSelect"/>
 
         <Spinner
             android:layout_width="0dp"
