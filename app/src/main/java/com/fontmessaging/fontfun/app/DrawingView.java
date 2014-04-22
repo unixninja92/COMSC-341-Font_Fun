@@ -23,7 +23,11 @@ public class DrawingView extends View {
     //canvas
     private Canvas drawCanvas;
     //canvas bitmap
-    private Bitmap canvasBitmap;
+    private Bitmap canvasBitmap;//for later saving the image
+
+    private boolean pen = true;
+    private boolean brush = false;
+    private boolean erase=false;
 
     int fontName;
 
@@ -81,5 +85,23 @@ public class DrawingView extends View {
         }
         invalidate();
         return true;
+    }
+
+    public void setErase() {
+        erase = true;
+        pen = false;
+        brush = false;
+    }
+
+    public void setBrush() {
+        brush = true;
+        pen = false;
+        erase = false;
+    }
+
+    public void setPen() {
+        pen = true;
+        brush = false;
+        erase = false;
     }
 }
