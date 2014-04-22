@@ -1,5 +1,6 @@
 package com.fontmessaging.fontfun.app;
 
+import android.content.SharedPreferences;
 import android.os.Debug;
 import android.view.View;
 import android.content.Context;
@@ -15,6 +16,8 @@ import android.view.MotionEvent;
  * Based on http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
  */
 public class DrawingView extends View {
+    private static final String PREFS = "prefs";
+    SharedPreferences mSharedPreferences;
 
     //drawing path
     private Path drawPath;

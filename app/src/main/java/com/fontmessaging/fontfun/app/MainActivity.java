@@ -15,15 +15,21 @@ import android.widget.EditText;
 * font name based on http://www.raywenderlich.com/56109/make-first-android-app-part-2
  */
 public class MainActivity extends Activity {
+    private static final String PREFS = "prefs";
+    private static final String PREF_CURRENT_FONT_NAME = "current_font";
+    SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSharedPreferences = getSharedPreferences(PREFS,0);
     }
 
     public void createFont(View view) {
         AlertDialog.Builder nameFont = new AlertDialog.Builder(this);
+
+
         nameFont.setTitle("New Font");
         nameFont.setMessage("Name of new font:");
 
@@ -35,9 +41,11 @@ public class MainActivity extends Activity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 String name = nameInput.getText().toString();
 
-                //SharedPreferences.Editor e =
-                //e.putString(PREF_NAME, inputName);
-                //e.commit();
+                SharedPreferences.Editor e = mSharedPreferences.edit();
+                e.putString(PREF_CURRENT_FONT_NAME, name);
+                e.commit();
+                Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
+                startActivity(draw);
             }
         });
 
@@ -49,8 +57,6 @@ public class MainActivity extends Activity {
 
         nameFont.show();
 
-        Intent draw = new Intent(this, DrawingActivity.class);
-        startActivity(draw);
 
     }
 

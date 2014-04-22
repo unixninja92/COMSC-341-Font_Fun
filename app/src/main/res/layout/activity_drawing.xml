@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Font Name"
-            android:id="@+id/textView"
+            android:id="@+id/fontName"
             android:layout_weight="0.17"
             android:textSize="20dp"
             android:textAlignment="gravity"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Current Letter"
-            android:id="@+id/textView2"
+            android:id="@+id/currentLetter"
             android:layout_weight="0.17"
             android:textAlignment="center" />
 
@@ -61,7 +61,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton"
+            android:id="@+id/penButton"
             android:layout_weight="0"
             android:contentDescription="@string/pen"
             android:text="@string/pen"
@@ -70,7 +70,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton2"
+            android:id="@+id/brushButton2"
             android:layout_weight="0"
             android:text="@string/brush"
             android:onClick="brushSelect"/>
@@ -78,7 +78,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/imageButton3"
+            android:id="@+id/eraserButton3"
             android:layout_weight="0"
             android:text="@string/eraser"
             android:onClick="eraserSelect"/>
@@ -86,7 +86,7 @@
         <Spinner
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/spinner"
+            android:id="@+id/size"
             android:layout_weight="1" />
     </LinearLayout>
 
