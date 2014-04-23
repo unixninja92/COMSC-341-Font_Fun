@@ -60,5 +60,10 @@ public class MainActivity extends Activity {
 
     }
 
+    public void createDocument(View view){
+        Intent doc = new Intent(MainActivity.this, DocumentActivity.class);
+        startActivity(doc);
+    }
+
 }
 

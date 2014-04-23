@@ -12,15 +12,12 @@
         android:layout_weight=".01"
         android:weightSum="1">
 
-        <TextView
+
+        <Spinner
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@id/documentName"
-            android:layout_weight="0.17"
-            android:textSize="20dp"
-            android:textAlignment="gravity"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="Current Font" />
+            android:layout_height="wrap_content"
+            android:id="@+id/fontSpinner"
+            android:layout_weight="1.7" />
 
         <Space
             android:layout_width="wrap_content"
