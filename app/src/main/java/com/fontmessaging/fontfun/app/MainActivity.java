@@ -17,6 +17,7 @@ import android.widget.EditText;
 public class MainActivity extends Activity {
     private static final String PREFS = "prefs";
     private static final String PREF_CURRENT_FONT_NAME = "current_font";
+    private static final String PREF_CURRENT_DOC_NAME = "current_doc";
     SharedPreferences mSharedPreferences;
 
     @Override
@@ -61,8 +62,37 @@ public class MainActivity extends Activity {
     }
 
     public void createDocument(View view){
-        Intent doc = new Intent(MainActivity.this, DocumentActivity.class);
-        startActivity(doc);
+
+        AlertDialog.Builder nameDoc = new AlertDialog.Builder(this);
+
+
+        nameDoc.setTitle("New Document");
+        nameDoc.setMessage("Name of new document:");
+
+        final EditText nameInput = new EditText(this);
+        nameDoc.setView(nameInput);
+
+        nameDoc.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String name = nameInput.getText().toString();
+
+                        SharedPreferences.Editor e = mSharedPreferences.edit();
+                        e.putString(PREF_CURRENT_DOC_NAME, name);
+                        e.commit();
+                        Intent doc = new Intent(MainActivity.this, DocumentActivity.class);
+                        startActivity(doc);
+                    }
+                });
+
+        nameDoc.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+
+        nameDoc.show();
+
     }
 
 }
