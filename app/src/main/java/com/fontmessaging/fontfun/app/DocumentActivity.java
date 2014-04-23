@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+
 
 
 public class DocumentActivity extends ActionBarActivity {
@@ -14,17 +17,21 @@ public class DocumentActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document);
 
+
+
+
+        final EditText simpleEditText = (EditText) findViewById(R.id.DocumentText);
+
+
+        simpleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                String strValue = simpleEditText.getText().toString();
+//                Log.d(DEBUG_TAG, "User set EditText value to " + strValue);
+            }
+        });
+
         String strValue = simpleEditText.getText().toString();
+
     }
-
-    final EditText simpleEditText = (EditText) findViewById(R.id.DocumentText);
-    simpleEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-        public void onFocusChange(View v, boolean hasFocus) {
-            String strValue = simpleEditText.getText().toString();
-            Log.d(DEBUG_TAG, "User set EditText value to " + strValue);
-        }
-    });
-
-
 
 }
