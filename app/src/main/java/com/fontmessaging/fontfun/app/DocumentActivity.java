@@ -1,5 +1,6 @@
 package com.fontmessaging.fontfun.app;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -8,18 +9,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Spinner;
-
-
+import android.widget.TextView;
 
 
 public class DocumentActivity extends ActionBarActivity {
+    private static final String PREFS = "prefs";
+    SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document);
 
+        mSharedPreferences = getSharedPreferences(PREFS,0);
 
+        TextView name = (TextView)this.findViewById(R.id.documentName);
+        name.setText(mSharedPreferences.getString("current_doc", "New Document"));
 
 
         final EditText simpleEditText = (EditText) findViewById(R.id.DocumentText);
