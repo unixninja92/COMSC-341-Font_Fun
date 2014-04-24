@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
         Cursor cursor = wdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
         startManagingCursor(cursor);
 
-        SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry,cursor, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry});
+        SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry,cursor, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         ListView list = (ListView) this.findViewById(R.id.listView);
         list.setAdapter(cAdapter);
