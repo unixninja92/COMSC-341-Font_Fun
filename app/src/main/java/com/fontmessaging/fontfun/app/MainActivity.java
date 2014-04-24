@@ -6,14 +6,19 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import java.nio.DoubleBuffer;
+import java.util.ArrayList;
 
 /*
 * font name based on http://www.raywenderlich.com/56109/make-first-android-app-part-2
@@ -27,13 +32,23 @@ public class MainActivity extends Activity {
     private SQLiteDatabase rdb;
     private SQLiteDatabase wdb;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSharedPreferences = getSharedPreferences(PREFS,0);
-        rdb = db.getReadableDatabase();
+//        rdb = db.getReadableDatabase();
         wdb = db.getWritableDatabase();
+
+        Cursor cursor = wdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
+        startManagingCursor(cursor);
+
+        SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry,cursor, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry});
+
+        ListView list = (ListView) this.findViewById(R.id.listView);
+        list.setAdapter(cAdapter);
+
     }
 
     public void createFont(View view) {

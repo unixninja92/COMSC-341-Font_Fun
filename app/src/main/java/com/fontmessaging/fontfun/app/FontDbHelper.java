@@ -14,16 +14,16 @@ public class FontDbHelper extends SQLiteOpenHelper {
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES_FONT =
-            "CREATE TABLE " + FontEntry.TABLE_NAME_FONT + " (" +
-                    FontEntry._ID + " INTEGER PRIMARY KEY," +
-                    FontEntry.COLUMN_NAME_FONT_ID + TEXT_TYPE + COMMA_SEP +
+            "CREATE TABLE " + FontEntry.TABLE_NAME_FONT + " ( " +
+                    FontEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    FontEntry.COLUMN_NAME_FONT_ID + " INTEGER AUTOINCREMENT" + COMMA_SEP +
                     FontEntry.COLUMN_NAME_FONT_NAME + TEXT_TYPE +
                     " )";
     private static final String SQL_CREATE_ENTRIES_CHAR =
-            "CREATE TABLE " + FontEntry.TABLE_NAME_CHAR + " (" +
-                    FontEntry._ID + " INTEGER PRIMARY KEY," +
-                    FontEntry.COLUMN_NAME_CHAR_ID + TEXT_TYPE + COMMA_SEP +
-                    FontEntry.COLUMN_NAME_FONT_ID + TEXT_TYPE + COMMA_SEP +
+            "CREATE TABLE " + FontEntry.TABLE_NAME_CHAR + " ( " +
+                    FontEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    FontEntry.COLUMN_NAME_CHAR_ID + " INTEGER AUTOINCREMENT" + COMMA_SEP +
+                    FontEntry.COLUMN_NAME_FONT_ID + " INTEGER AUTOINCREMENT" + COMMA_SEP +
                     FontEntry.COLUMN_NAME_CHAR + TEXT_TYPE +
                     " )";
 
