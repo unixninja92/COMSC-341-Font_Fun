@@ -17,14 +17,14 @@ public class FontDbHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + FontEntry.TABLE_NAME_FONT + " (" +
                     FontEntry._ID + " INTEGER PRIMARY KEY," +
                     FontEntry.COLUMN_NAME_FONT_ID + TEXT_TYPE + COMMA_SEP +
-                    FontEntry.COLUMN_NAME_FONT_NAME + TEXT_TYPE + COMMA_SEP +
+                    FontEntry.COLUMN_NAME_FONT_NAME + TEXT_TYPE +
                     " )";
     private static final String SQL_CREATE_ENTRIES_CHAR =
             "CREATE TABLE " + FontEntry.TABLE_NAME_CHAR + " (" +
                     FontEntry._ID + " INTEGER PRIMARY KEY," +
                     FontEntry.COLUMN_NAME_CHAR_ID + TEXT_TYPE + COMMA_SEP +
                     FontEntry.COLUMN_NAME_FONT_ID + TEXT_TYPE + COMMA_SEP +
-                    FontEntry.COLUMN_NAME_CHAR + TEXT_TYPE + COMMA_SEP +
+                    FontEntry.COLUMN_NAME_CHAR + TEXT_TYPE +
                     " )";
 
 
@@ -43,12 +43,4 @@ public class FontDbHelper extends SQLiteOpenHelper {
     }
 
 
-    public static abstract class FontEntry implements BaseColumns {
-        public static final String TABLE_NAME_FONT = "font";
-        public static final String COLUMN_NAME_FONT_ID = "fontid";
-        public static final String COLUMN_NAME_FONT_NAME = "fontname";
-        public static final String TABLE_NAME_CHAR = "chars";
-        public static final String COLUMN_NAME_CHAR_ID = "charid";
-        public static final String COLUMN_NAME_CHAR = "char";
-    }
 }

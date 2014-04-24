@@ -2,6 +2,7 @@ package com.fontmessaging.fontfun.app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,15 +23,17 @@ public class MainActivity extends Activity {
     private static final String PREF_CURRENT_FONT_NAME = "current_font";
     private static final String PREF_CURRENT_DOC_NAME = "current_doc";
     private SharedPreferences mSharedPreferences;
-    private final FontDbHelper db = new FontDbHelper(this);
-    private final SQLiteDatabase rdb = db.getReadableDatabase();
-    private final SQLiteDatabase wdb = db.getWritableDatabase();
+    private FontDbHelper db = new FontDbHelper(this);
+    private SQLiteDatabase rdb;
+    private SQLiteDatabase wdb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSharedPreferences = getSharedPreferences(PREFS,0);
+        rdb = db.getReadableDatabase();
+        wdb = db.getWritableDatabase();
     }
 
     public void createFont(View view) {
@@ -51,6 +54,11 @@ public class MainActivity extends Activity {
                 SharedPreferences.Editor e = mSharedPreferences.edit();
                 e.putString(PREF_CURRENT_FONT_NAME, name);
                 e.commit();
+
+                ContentValues fontName = new ContentValues();
+                fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
+                wdb.insert("font", null, fontName);
+
                 Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
                 startActivity(draw);
             }
