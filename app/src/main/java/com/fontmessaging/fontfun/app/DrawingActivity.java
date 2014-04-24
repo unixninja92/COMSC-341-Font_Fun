@@ -1,48 +1,45 @@
 package com.fontmessaging.fontfun.app;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.content.Intent;
 
 public class DrawingActivity extends Activity {
-    private static final String PREFS = "prefs";
-    SharedPreferences mSharedPreferences;
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
     protected String currentLetter = "a";
     protected DrawingView draw;
-    private int fontId = 0;
+    private int fontId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
 
-        mSharedPreferences = getSharedPreferences(PREFS, 0);
+        Intent intent = getIntent();
+        String fontName = intent.getStringExtra("currentFont");
         rdb = db.getReadableDatabase();
 
         draw = (DrawingView)this.findViewById(R.id.drawingView);
 
 
         TextView name = (TextView)this.findViewById(R.id.fontName);
-        Cursor currentFontCursor = rdb.query(
-                FontEntry.TABLE_NAME_FONT,
-                new String[] {FontEntry.COLUMN_NAME_FONT_NAME},
-                FontEntry.COLUMN_CURRENT_FONT+" = 1",
-                null, null, null, null);
-        currentFontCursor.moveToFirst();
-        name.setText(currentFontCursor.getString(0));
+//        Cursor currentFontCursor = rdb.query(
+//                FontEntry.TABLE_NAME_FONT,
+//                new String[] {FontEntry.COLUMN_NAME_FONT_NAME},
+//                FontEntry.COLUMN_CURRENT_FONT+" = 1",
+//                null, null, null, null);
+//        currentFontCursor.moveToFirst();
+        name.setText(fontName);
 
         Spinner spinner = (Spinner) findViewById(R.id.size);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -66,7 +63,11 @@ public class DrawingActivity extends Activity {
 
             }
         });
+
+
     }
+
+
 
     public void penSelect(View view){
         draw.setPen();

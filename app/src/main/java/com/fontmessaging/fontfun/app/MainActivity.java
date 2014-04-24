@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
                 wdb.insert("font", null, fontName);
 
                 Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
-
+                draw.putExtra("currentFont",fontName);
                 startActivity(draw);
             }
         });
