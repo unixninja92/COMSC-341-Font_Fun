@@ -13,6 +13,7 @@ public class Font {
     private HashMap<Character, Char> characters;
     private int id;
     private static int lastID = 0;
+
     public Font(String newName){
         id = lastID;
         lastID++;

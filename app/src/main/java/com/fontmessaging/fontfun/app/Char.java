@@ -1,7 +1,8 @@
 package com.fontmessaging.fontfun.app;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
-
+import java.io.FileOutputStream;
 import java.io.File;
 
 /**
@@ -12,10 +13,12 @@ public class Char {
     private String folder;
     private char character;
     private Bitmap image;
+    private FileOutputStream outputStream;
 
     public Char(String folder, char newChar){
         this.folder = folder;
         character = newChar;
+
     }
 
     public char getCharacter() {

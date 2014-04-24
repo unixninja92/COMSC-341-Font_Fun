@@ -41,6 +41,7 @@ public class DocumentActivity extends ActionBarActivity {
 
 
 
+
         Spinner spinner = (Spinner) findViewById(R.id.fontSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
