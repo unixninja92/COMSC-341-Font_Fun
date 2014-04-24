@@ -22,6 +22,9 @@ import java.util.ArrayList;
 
 /*
 * font name based on http://www.raywenderlich.com/56109/make-first-android-app-part-2
+* cursor and cursor adapter based on
+* https://thinkandroid.wordpress.com/2010/01/09/simplecursoradapters-and-listviews/
+* and http://www.vogella.com/tutorials/AndroidListView/article.html#cursor
  */
 public class MainActivity extends Activity {
     private static final String PREFS = "prefs";
@@ -38,10 +41,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSharedPreferences = getSharedPreferences(PREFS,0);
-//        rdb = db.getReadableDatabase();
+        rdb = db.getReadableDatabase();
         wdb = db.getWritableDatabase();
 
-        Cursor cursor = wdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
+        Cursor cursor = wdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
         startManagingCursor(cursor);
 
         SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry,cursor, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);

@@ -7,6 +7,7 @@ import android.provider.BaseColumns;
 
 /**
  * Created by charles on 4/24/14.
+ * based on http://www.drdobbs.com/database/using-sqlite-on-android/232900584?pgno=2
  */
 public class FontDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
@@ -16,13 +17,11 @@ public class FontDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES_FONT =
             "CREATE TABLE " + FontEntry.TABLE_NAME_FONT + " ( " +
                     FontEntry._ID + " INTEGER PRIMARY KEY, " +
-                    FontEntry.COLUMN_NAME_FONT_ID + " INTEGER " + COMMA_SEP +
                     FontEntry.COLUMN_NAME_FONT_NAME + TEXT_TYPE +
                     " )";
     private static final String SQL_CREATE_ENTRIES_CHAR =
             "CREATE TABLE " + FontEntry.TABLE_NAME_CHAR + " ( " +
                     FontEntry._ID + " INTEGER PRIMARY KEY, " +
-                    FontEntry.COLUMN_NAME_CHAR_ID + " INTEGER " + COMMA_SEP +
                     FontEntry.COLUMN_NAME_FONT_ID + " INTEGER " + COMMA_SEP +
                     FontEntry.COLUMN_NAME_CHAR + TEXT_TYPE +
                     " )";

@@ -32,6 +32,8 @@ public class DrawingView extends View {
     private boolean brush = false;
     private boolean erase=false;
 
+    private int size = 10;
+
     int fontName;
 
     public DrawingView(Context context, AttributeSet attrs){
@@ -45,7 +47,7 @@ public class DrawingView extends View {
         drawPaint = new Paint();
         drawPaint.setColor(0xFF000000);
         drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(20);
+        drawPaint.setStrokeWidth(size);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -106,5 +108,18 @@ public class DrawingView extends View {
         pen = true;
         brush = false;
         erase = false;
+    }
+
+    public void setSize(int newSize) {
+        switch (newSize){
+            case 1: size = 5;
+                break;
+            case 2: size = 10;
+                break;
+            case 3: size = 20;
+                break;
+            default: size = 10;
+        }
+
     }
 }

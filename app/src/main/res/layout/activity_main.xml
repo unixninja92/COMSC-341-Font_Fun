@@ -14,11 +14,11 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".2">
+            android:layout_weight=".1">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/fonts"
                 android:id="@+id/textView"
@@ -43,7 +43,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/listView"
             android:layout_gravity="center_horizontal"
-            android:layout_weight=".8" />
+            android:layout_weight=".9"
+            android:choiceMode="singleChoice"
+            android:drawSelectorOnTop="true" />
 
     </LinearLayout>
 
