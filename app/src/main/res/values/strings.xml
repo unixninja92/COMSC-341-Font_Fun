@@ -28,4 +28,10 @@
         <item>Neptune</item>
     </string-array>
 
+    <string-array name="size_array">
+        <item>small</item>
+        <item>medium</item>
+        <item>large</item>
+    </string-array>
+
 </resources>

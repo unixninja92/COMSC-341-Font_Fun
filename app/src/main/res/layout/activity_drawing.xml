@@ -58,6 +58,11 @@
         android:layout_weight="0.02"
         android:weightSum="1">
 
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight=".5" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -84,10 +89,15 @@
             android:onClick="eraserSelect"/>
 
         <Spinner
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/size"
-            android:layout_weight="1" />
+            android:layout_weight="0" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight=".5" />
     </LinearLayout>
 
     <com.fontmessaging.fontfun.app.DrawingView
