@@ -96,30 +96,45 @@ public class DrawingView extends View {
         erase = true;
         pen = false;
         brush = false;
+
+        drawPaint.setColor(0xFFFFFFFF);
+        drawPaint.setStrokeJoin(Paint.Join.ROUND);
+        drawPaint.setStrokeCap(Paint.Cap.ROUND);
+        drawPaint.setAntiAlias(true);
     }
 
     public void setBrush() {
         brush = true;
         pen = false;
         erase = false;
+
+        drawPaint.setColor(0xFF000000);
+        drawPaint.setStrokeJoin(Paint.Join.BEVEL);
+        drawPaint.setStrokeCap(Paint.Cap.BUTT);
+        drawPaint.setAntiAlias(false);
     }
 
     public void setPen() {
         pen = true;
         brush = false;
         erase = false;
+
+        drawPaint.setColor(0xFF000000);
+        drawPaint.setStrokeJoin(Paint.Join.ROUND);
+        drawPaint.setStrokeCap(Paint.Cap.ROUND);
+        drawPaint.setAntiAlias(true);
     }
 
     public void setSize(int newSize) {
         switch (newSize){
-            case 1: size = 5;
+            case 0: size = 10;
                 break;
-            case 2: size = 10;
+            case 1: size = 20;
                 break;
-            case 3: size = 20;
+            case 2: size = 40;
                 break;
             default: size = 10;
         }
-
+        drawPaint.setStrokeWidth(size);
     }
 }
