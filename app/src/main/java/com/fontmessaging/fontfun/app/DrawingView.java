@@ -98,9 +98,7 @@ public class DrawingView extends View {
         brush = false;
 
         drawPaint.setColor(0xFFFFFFFF);
-        drawPaint.setStrokeJoin(Paint.Join.ROUND);
-        drawPaint.setStrokeCap(Paint.Cap.ROUND);
-        drawPaint.setAntiAlias(true);
+        drawPaint.setShadowLayer(0, 0, 0, 0xFF000000);
     }
 
     public void setBrush() {
@@ -109,9 +107,7 @@ public class DrawingView extends View {
         erase = false;
 
         drawPaint.setColor(0xFF000000);
-        drawPaint.setStrokeJoin(Paint.Join.BEVEL);
-        drawPaint.setStrokeCap(Paint.Cap.BUTT);
-        drawPaint.setAntiAlias(false);
+        drawPaint.setShadowLayer((int)(size/1.5), 0, 0, 0xFF000000);
     }
 
     public void setPen() {
@@ -120,9 +116,7 @@ public class DrawingView extends View {
         erase = false;
 
         drawPaint.setColor(0xFF000000);
-        drawPaint.setStrokeJoin(Paint.Join.ROUND);
-        drawPaint.setStrokeCap(Paint.Cap.ROUND);
-        drawPaint.setAntiAlias(true);
+        drawPaint.setShadowLayer(0, 0, 0, 0xFF000000);
     }
 
     public void setSize(int newSize) {

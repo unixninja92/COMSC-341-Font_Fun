@@ -14,7 +14,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".1">
+            android:layout_weight=".1"
+            style="@style/Widget.AppCompat.Light.Base.ActionBar">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Base.ActionBar">
 
             <TextView
                 android:layout_width="wrap_content"
