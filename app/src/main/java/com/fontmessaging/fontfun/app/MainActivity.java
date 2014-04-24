@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.database.sqlite.SQLiteDatabase;
+
+import java.nio.DoubleBuffer;
 
 /*
 * font name based on http://www.raywenderlich.com/56109/make-first-android-app-part-2
@@ -18,7 +21,10 @@ public class MainActivity extends Activity {
     private static final String PREFS = "prefs";
     private static final String PREF_CURRENT_FONT_NAME = "current_font";
     private static final String PREF_CURRENT_DOC_NAME = "current_doc";
-    SharedPreferences mSharedPreferences;
+    private SharedPreferences mSharedPreferences;
+    private final FontDbHelper db = new FontDbHelper(this);
+    private final SQLiteDatabase rdb = db.getReadableDatabase();
+    private final SQLiteDatabase wdb = db.getWritableDatabase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
