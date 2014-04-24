@@ -75,9 +75,11 @@ public class MainActivity extends Activity {
 
                 ContentValues fontName = new ContentValues();
                 fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
+//                fontName.put(FontEntry.COLUMN_CURRENT_FONT, "1");
                 wdb.insert("font", null, fontName);
 
                 Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
+
                 startActivity(draw);
             }
         });

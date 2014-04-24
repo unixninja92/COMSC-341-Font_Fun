@@ -2,6 +2,8 @@ package com.fontmessaging.fontfun.app;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,26 +11,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 public class DrawingActivity extends Activity {
     private static final String PREFS = "prefs";
     SharedPreferences mSharedPreferences;
+    private FontDbHelper db = new FontDbHelper(this);
+    private SQLiteDatabase rdb;
     protected String currentLetter = "a";
     protected DrawingView draw;
+    private int fontId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
 
-        mSharedPreferences = getSharedPreferences(PREFS,0);
+        mSharedPreferences = getSharedPreferences(PREFS, 0);
+        rdb = db.getReadableDatabase();
 
         draw = (DrawingView)this.findViewById(R.id.drawingView);
 
+
         TextView name = (TextView)this.findViewById(R.id.fontName);
-        name.setText(mSharedPreferences.getString("current_font", "New Font"));
+        Cursor currentFontCursor = rdb.query(
+                FontEntry.TABLE_NAME_FONT,
+                new String[] {FontEntry.COLUMN_NAME_FONT_NAME},
+                FontEntry.COLUMN_CURRENT_FONT+" = 1",
+                null, null, null, null);
+        currentFontCursor.moveToFirst();
+        name.setText(currentFontCursor.getString(0));
 
         Spinner spinner = (Spinner) findViewById(R.id.size);
         // Create an ArrayAdapter using the string array and a default spinner layout

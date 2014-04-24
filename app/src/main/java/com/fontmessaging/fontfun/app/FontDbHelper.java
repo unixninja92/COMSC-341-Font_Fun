@@ -17,7 +17,8 @@ public class FontDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES_FONT =
             "CREATE TABLE " + FontEntry.TABLE_NAME_FONT + " ( " +
                     FontEntry._ID + " INTEGER PRIMARY KEY, " +
-                    FontEntry.COLUMN_NAME_FONT_NAME + TEXT_TYPE +
+                    FontEntry.COLUMN_NAME_FONT_NAME + TEXT_TYPE + COMMA_SEP +
+                    FontEntry.COLUMN_CURRENT_FONT + " boolean " +
                     " )";
     private static final String SQL_CREATE_ENTRIES_CHAR =
             "CREATE TABLE " + FontEntry.TABLE_NAME_CHAR + " ( " +
