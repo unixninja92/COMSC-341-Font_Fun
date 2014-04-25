@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -50,6 +51,7 @@ public class MainActivity extends Activity {
 
     public void createFont(View view) {
         AlertDialog.Builder nameFont = new AlertDialog.Builder(this);
+        final AlertDialog.Builder fontExists = new AlertDialog.Builder(this);
 
 
         nameFont.setTitle("New Font");
@@ -58,20 +60,28 @@ public class MainActivity extends Activity {
         final EditText nameInput = new EditText(this);
         nameFont.setView(nameInput);
 
-        nameInput.requestFocus();
+
         nameFont.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String name = nameInput.getText().toString();
+                try{//checks if font name already exists. if it dosen't it throws an error which is caught that creates new font. If it does already exist, then opens dialog to notify user and take back to main screen.
+                    Cursor cur = rdb.query(FontEntry.TABLE_NAME_FONT,new String[]{FontEntry.COLUMN_NAME_FONT_NAME},FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'", null, null, null, null);
+                    fontExists.setMessage("Font Already Exists");
+                    fontExists.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {}
+                    });
+                    fontExists.show();
+                }catch (SQLiteException e){
+                    ContentValues fontName = new ContentValues();
+                    fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
+                    wdb.insert("font", null, fontName);
 
-                ContentValues fontName = new ContentValues();
-                fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
-//                fontName.put(FontEntry.COLUMN_CURRENT_FONT, "1");
-                wdb.insert("font", null, fontName);
-
-                Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
-                draw.putExtra("currentFont",fontName);
-                startActivity(draw);
+                    Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
+                    draw.putExtra("currentFont", name);
+                    startActivity(draw);
+                }
             }
         });
 
