@@ -39,16 +39,21 @@ public class MainActivity extends Activity {
         rdb = db.getReadableDatabase();
         wdb = db.getWritableDatabase();
 
+        //gets list of fonts
         Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
         startManagingCursor(cursor);
 
+        //puts list of fonts in ListView
         SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, cursor, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-
         ListView list = (ListView) this.findViewById(R.id.listView);
         list.setAdapter(cAdapter);
 
     }
 
+    /*
+    *   Starts DrawingActivity and quires user for new font name. If font already exists user is
+    *   notified and kept at main screen.
+     */
     public void createFont(View view) {
         AlertDialog.Builder nameFont = new AlertDialog.Builder(this);
         final AlertDialog.Builder fontExists = new AlertDialog.Builder(this);
@@ -65,8 +70,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String name = nameInput.getText().toString();
-                try{//checks if font name already exists. if it dosen't it throws an error which is caught that creates new font. If it does already exist, then opens dialog to notify user and take back to main screen.
-                    Cursor cur = rdb.query(FontEntry.TABLE_NAME_FONT,new String[]{FontEntry.COLUMN_NAME_FONT_NAME},FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'", null, null, null, null);
+                try{//checks if font name already exists. if it dosen't it
+                // throws an error which is caught that creates new font. If it does already exist,
+                // then opens dialog to notify user and take back to main screen.
+                    Cursor cur = rdb.query(FontEntry.TABLE_NAME_FONT,
+                            new String[]{FontEntry.COLUMN_NAME_FONT_NAME},
+                            FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'",
+                            null, null, null, null);
                     fontExists.setMessage("Font Already Exists");
                     fontExists.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                         @Override

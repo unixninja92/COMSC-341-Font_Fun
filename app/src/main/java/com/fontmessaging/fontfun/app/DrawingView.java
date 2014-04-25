@@ -16,9 +16,6 @@ import android.view.MotionEvent;
  * Based on http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
  */
 public class DrawingView extends View {
-    private static final String PREFS = "prefs";
-    SharedPreferences mSharedPreferences;
-
     //drawing path
     private Path drawPath;
     //drawing and canvas paint
@@ -28,13 +25,13 @@ public class DrawingView extends View {
     //canvas bitmap
     private Bitmap canvasBitmap;//for later saving the image
 
+    //currently selected tool
     private boolean pen = true;
     private boolean brush = false;
     private boolean erase=false;
 
+    //brush size
     private int size = 10;
-
-    int fontName;
 
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -56,7 +53,7 @@ public class DrawingView extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-    //view given size
+    //view given size, resizes canvas
         super.onSizeChanged(w, h, oldw, oldh);
         canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         drawCanvas = new Canvas(canvasBitmap);
@@ -92,6 +89,9 @@ public class DrawingView extends View {
         return true;
     }
 
+    /*
+    * Sets up Eraser tool
+     */
     public void setErase() {
         erase = true;
         pen = false;
@@ -101,6 +101,9 @@ public class DrawingView extends View {
         drawPaint.setShadowLayer(0, 0, 0, 0xFF000000);
     }
 
+    /*
+    * Sets up Brush tool
+     */
     public void setBrush() {
         brush = true;
         pen = false;
@@ -110,6 +113,9 @@ public class DrawingView extends View {
         drawPaint.setShadowLayer((int)(size/1.5), 0, 0, 0xFF000000);
     }
 
+    /*
+    * Sets up Pen tool
+     */
     public void setPen() {
         pen = true;
         brush = false;
@@ -119,6 +125,9 @@ public class DrawingView extends View {
         drawPaint.setShadowLayer(0, 0, 0, 0xFF000000);
     }
 
+    /*
+    * Sets stroke size of currently selected tool
+     */
     public void setSize(int newSize) {
         switch (newSize){
             case 0: size = 10;
