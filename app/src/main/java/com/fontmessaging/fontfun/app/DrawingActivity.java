@@ -25,13 +25,14 @@ public class DrawingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
 
+        //gets font name from MainActivity
         Intent intent = getIntent();
         String fontName = intent.getStringExtra("currentFont");
         rdb = db.getReadableDatabase();
 
         draw = (DrawingView)this.findViewById(R.id.drawingView);
 
-
+        //Displays font name
         TextView name = (TextView)this.findViewById(R.id.fontName);
 //        Cursor currentFontCursor = rdb.query(
 //                FontEntry.TABLE_NAME_FONT,
@@ -41,6 +42,7 @@ public class DrawingActivity extends Activity {
 //        currentFontCursor.moveToFirst();
         name.setText(fontName);
 
+        //setup size spinner with different sizes
         Spinner spinner = (Spinner) findViewById(R.id.size);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -50,6 +52,7 @@ public class DrawingActivity extends Activity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        //changes size of stroke of current tool based on spinner item selected
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -68,15 +71,13 @@ public class DrawingActivity extends Activity {
     }
 
 
-
+    //On touch of tool buttons, sets that as current tool
     public void penSelect(View view){
         draw.setPen();
     }
-
     public void brushSelect(View view){
         draw.setBrush();
     }
-
     public void eraserSelect(View view){
         draw.setErase();
     }
