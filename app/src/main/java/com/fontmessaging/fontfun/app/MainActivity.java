@@ -6,8 +6,11 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,14 +36,29 @@ public class MainActivity extends Activity {
         wdb = db.getWritableDatabase();
 
         //gets list of fonts
-        Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
+        final Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
         startManagingCursor(cursor);
 
         //puts list of fonts in ListView
-        SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, cursor, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        ListView list = (ListView) this.findViewById(R.id.listView);
+        final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, cursor, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        final ListView list = (ListView) this.findViewById(R.id.listView);
         list.setAdapter(cAdapter);
 
+        //opens fonts clicked
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                cursor.moveToPosition(i);
+                openFont(cursor.getString(1));
+            }
+        });
+    }
+
+    public void openFont(String selectedItem) {
+        Log.d("selected string", selectedItem);
+        Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
+        draw.putExtra("currentFont", selectedItem);
+        startActivity(draw);
     }
 
     /*
