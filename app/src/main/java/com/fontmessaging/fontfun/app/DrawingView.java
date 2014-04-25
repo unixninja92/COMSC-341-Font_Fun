@@ -1,6 +1,5 @@
 package com.fontmessaging.fontfun.app;
 
-import android.content.SharedPreferences;
 import android.os.Debug;
 import android.view.View;
 import android.content.Context;

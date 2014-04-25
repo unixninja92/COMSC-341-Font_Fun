@@ -54,7 +54,6 @@ public class DrawingActivity extends Activity {
 
         //changes size of stroke of current tool based on spinner item selected
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 draw.setSize(adapterView.getSelectedItemPosition());
@@ -66,10 +65,7 @@ public class DrawingActivity extends Activity {
 
             }
         });
-
-
     }
-
 
     //On touch of tool buttons, sets that as current tool
     public void penSelect(View view){

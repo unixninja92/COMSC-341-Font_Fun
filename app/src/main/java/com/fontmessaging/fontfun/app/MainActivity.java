@@ -8,17 +8,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-
-import java.nio.DoubleBuffer;
-import java.util.ArrayList;
 
 /*
 * font name based on http://www.raywenderlich.com/56109/make-first-android-app-part-2
@@ -30,7 +24,6 @@ public class MainActivity extends Activity {
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
     private SQLiteDatabase wdb;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,21 +51,19 @@ public class MainActivity extends Activity {
         AlertDialog.Builder nameFont = new AlertDialog.Builder(this);
         final AlertDialog.Builder fontExists = new AlertDialog.Builder(this);
 
-
         nameFont.setTitle("New Font");
         nameFont.setMessage("Name of new font:");
 
         final EditText nameInput = new EditText(this);
         nameFont.setView(nameInput);
 
-
+        //checks if font name already exists. if it dosen't than the new font is created.
+        // If it does already exist, then a dialog is opened to notify user and take them
+        // back to main screen.
         nameFont.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String name = nameInput.getText().toString();
-                //checks if font name already exists. if it dosen't than the new font is created.
-                // If it does already exist, then a dialog is opened to notify user and take them
-                // back to main screen.
                 Cursor cur = rdb.query(FontEntry.TABLE_NAME_FONT,
                         new String[]{FontEntry.COLUMN_NAME_FONT_NAME},
                         FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'",
@@ -105,12 +96,9 @@ public class MainActivity extends Activity {
         });
 
         nameFont.show();
-
-
     }
 
     public void createDocument(View view){
-
         AlertDialog.Builder nameDoc = new AlertDialog.Builder(this);
 
         //on create section of main activity-populate doc part **
