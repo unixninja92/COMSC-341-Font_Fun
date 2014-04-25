@@ -55,7 +55,7 @@ public class DrawingActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 draw.setSize(adapterView.getSelectedItemPosition());
-                Log.e("klkl", ""+adapterView.getSelectedItemPosition());
+//                Log.e("klkl", ""+adapterView.getSelectedItemPosition());
             }
 
             @Override
