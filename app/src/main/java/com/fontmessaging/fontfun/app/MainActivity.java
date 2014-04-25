@@ -70,20 +70,14 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String name = nameInput.getText().toString();
-                try{//checks if font name already exists. if it dosen't it
-                // throws an error which is caught that creates new font. If it does already exist,
-                // then opens dialog to notify user and take back to main screen.
-                    Cursor cur = rdb.query(FontEntry.TABLE_NAME_FONT,
-                            new String[]{FontEntry.COLUMN_NAME_FONT_NAME},
-                            FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'",
-                            null, null, null, null);
-                    fontExists.setMessage("Font Already Exists");
-                    fontExists.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {}
-                    });
-                    fontExists.show();
-                }catch (SQLiteException e){
+                //checks if font name already exists. if it dosen't than the new font is created.
+                // If it does already exist, then a dialog is opened to notify user and take them
+                // back to main screen.
+                Cursor cur = rdb.query(FontEntry.TABLE_NAME_FONT,
+                        new String[]{FontEntry.COLUMN_NAME_FONT_NAME},
+                        FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'",
+                        null, null, null, null);
+                if(cur.getCount() == 0) {
                     ContentValues fontName = new ContentValues();
                     fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
                     wdb.insert("font", null, fontName);
@@ -91,6 +85,15 @@ public class MainActivity extends Activity {
                     Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
                     draw.putExtra("currentFont", name);
                     startActivity(draw);
+                }
+                else {
+                    fontExists.setMessage("Font Already Exists");
+                    fontExists.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    fontExists.show();
                 }
             }
         });
