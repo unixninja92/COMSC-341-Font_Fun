@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -27,10 +26,6 @@ import java.util.ArrayList;
 * and http://www.vogella.com/tutorials/AndroidListView/article.html#cursor
  */
 public class MainActivity extends Activity {
-    private static final String PREFS = "prefs";
-    private static final String PREF_CURRENT_FONT_NAME = "current_font";
-    private static final String PREF_CURRENT_DOC_NAME = "current_doc";
-    private SharedPreferences mSharedPreferences;
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
     private SQLiteDatabase wdb;
@@ -40,7 +35,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSharedPreferences = getSharedPreferences(PREFS,0);
         rdb = db.getReadableDatabase();
         wdb = db.getWritableDatabase();
 
@@ -69,10 +63,6 @@ public class MainActivity extends Activity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 String name = nameInput.getText().toString();
 
-                SharedPreferences.Editor e = mSharedPreferences.edit();
-                e.putString(PREF_CURRENT_FONT_NAME, name);
-                e.commit();
-
                 ContentValues fontName = new ContentValues();
                 fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
 //                fontName.put(FontEntry.COLUMN_CURRENT_FONT, "1");
@@ -99,7 +89,7 @@ public class MainActivity extends Activity {
 
         AlertDialog.Builder nameDoc = new AlertDialog.Builder(this);
 
-
+        //on create section of main activity-populate doc part **
         nameDoc.setTitle("New Document");
         nameDoc.setMessage("Name of new document:");
 
@@ -109,12 +99,16 @@ public class MainActivity extends Activity {
         nameDoc.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String name = nameInput.getText().toString();
+                        String docName = nameInput.getText().toString();
 
-                        SharedPreferences.Editor e = mSharedPreferences.edit();
-                        e.putString(PREF_CURRENT_DOC_NAME, name);
-                        e.commit();
+                        ContentValues docEntry = new ContentValues();
+                        docEntry.put(FontEntry.COLUMN_NAME_DOC_NAME, docName);
+                        docEntry.put(FontEntry.COLUMN_NAME_FONT_ID, 1);
+                        docEntry.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, "");
+                        wdb.insert(FontEntry.TABLE_NAME_DOC, null, docEntry);
+
                         Intent doc = new Intent(MainActivity.this, DocumentActivity.class);
+                        doc.putExtra("currentDoc",docName);
                         startActivity(doc);
                     }
                 });
