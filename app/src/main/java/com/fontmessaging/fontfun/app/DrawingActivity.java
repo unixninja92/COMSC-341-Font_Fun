@@ -1,6 +1,7 @@
 package com.fontmessaging.fontfun.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,12 +14,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.content.Intent;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 public class DrawingActivity extends Activity {
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
-    protected String currentLetter = "a";
+    protected Character currentLetter;
     protected DrawingView draw;
     private int fontId;
+    protected File  cur;
+    protected FileOutputStream curOut;
+    private String fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,21 @@ public class DrawingActivity extends Activity {
         rdb = db.getReadableDatabase();
 
         draw = (DrawingView)this.findViewById(R.id.drawingView);
+
+
+//        currentLetter = 'a';//sets defualt for current letter
+////        changeChar('a');
+//        fileName = fontId+"_"+currentLetter.charValue()+".png";
+//        try {
+//            cur = new File(getFilesDir(), fileName);
+//            if(!cur.exists()){
+//                cur.createNewFile();
+//            }
+//            curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
 
         //Displays font name
         TextView name = (TextView)this.findViewById(R.id.fontName);
@@ -65,6 +87,24 @@ public class DrawingActivity extends Activity {
 
             }
         });
+
+//        openFileOutput(getFilesDir(), Context.MODE_PRIVATE);
+    }
+
+    public void changeChar(char newChar) {
+        currentLetter = newChar;
+        fileName = fontId+"_"+currentLetter.charValue()+".png";
+        try {
+            curOut.close();
+            cur = new File(getFilesDir(), fileName);
+            curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void save(){
+        draw.saveChar(curOut);
     }
 
     //On touch of tool buttons, sets that as current tool

@@ -10,6 +10,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
 /**
  * Created by charles on 4/20/14.
  * Based on http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
@@ -31,6 +34,8 @@ public class DrawingView extends View {
 
     //brush size
     private int size = 10;
+
+    private int fontID;
 
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -138,5 +143,17 @@ public class DrawingView extends View {
             default: size = 10;
         }
         drawPaint.setStrokeWidth(size);
+    }
+
+//    public void setFontID(int id){
+//        fontID = id;
+//    }
+
+    public boolean saveChar(FileOutputStream out){
+        return canvasBitmap.compress(Bitmap.CompressFormat.PNG, 50, out);
+    }
+
+    public void loadChar(char newChar){
+//        drawCanvas
     }
 }
