@@ -160,4 +160,8 @@ public class DrawingView extends View {
         Log.d("fileName", fileName);
         canvasBitmap = BitmapFactory.decodeFile(fileName);
     }
+
+    public void createNewBitmap(int w, int h){
+        canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+    }
 }
