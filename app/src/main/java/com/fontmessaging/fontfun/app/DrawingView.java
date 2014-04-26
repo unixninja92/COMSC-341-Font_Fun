@@ -2,6 +2,7 @@ package com.fontmessaging.fontfun.app;
 
 import android.graphics.BitmapFactory;
 import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -154,11 +155,9 @@ public class DrawingView extends View {
 //        fontID = id;
 //    }
 
-    public boolean saveChar(FileOutputStream out){
-        return canvasBitmap.compress(Bitmap.CompressFormat.PNG, 50, out);
-    }
 
     public void loadChar(String fileName){
+        Log.d("fileName", fileName);
         canvasBitmap = BitmapFactory.decodeFile(fileName);
     }
 }

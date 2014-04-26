@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,9 +24,8 @@ public class DrawingActivity extends Activity {
     private SQLiteDatabase rdb;
     protected Character currentLetter;
     protected DrawingView draw;
-    private int fontId = 0;
+    private int fontId = 1;
     protected File  cur;
-    protected FileOutputStream curOut;
     private String fileName;
 
     @Override
@@ -43,14 +44,16 @@ public class DrawingActivity extends Activity {
 //        changeChar('a');
         fileName = fontId+"_"+currentLetter+".png";
         draw = (DrawingView)this.findViewById(R.id.drawingView);
+        draw.setDrawingCacheEnabled(true);
         try {
             cur = new File(getFilesDir(), fileName);
-            if(!cur.exists()){
-                cur.createNewFile();
+            Log.d("File "+cur.getPath()+" exists",cur.exists()+"");
+            if(cur.exists()){
+//                cur.createNewFile();
+                Log.d("byte count:",BitmapFactory.decodeFile(cur.getPath()).getByteCount()+"");
             }
-            curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
 
-            draw.loadChar(cur.getCanonicalPath());
+            draw.loadChar(cur.getPath());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -89,30 +92,32 @@ public class DrawingActivity extends Activity {
 
             }
         });
-
-//        openFileOutput(getFilesDir(), Context.MODE_PRIVATE);
     }
 
-    public void changeChar(char newChar) {
-        save();
-        currentLetter = newChar;
-        fileName = fontId+"_"+currentLetter.charValue()+".png";
-        draw.loadChar(fileName);
+//    public void changeChar(char newChar) {
+//        save(draw);
+//        currentLetter = newChar;
+//        fileName = fontId+"_"+currentLetter.charValue()+".png";
+//        draw.loadChar(fileName);
+//        try {
+//            curOut.close();
+//            cur = new File(getFilesDir(), fileName);
+//            curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+
+    public void save(View view){
+        FileOutputStream curOut;
         try {
-            curOut.close();
-            cur = new File(getFilesDir(), fileName);
             curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
+            draw.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, curOut);
+            curOut.close();
+            draw.destroyDrawingCache();
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    public void save(View view){
-        save();
-    }
-
-    public void save(){
-        draw.saveChar(curOut);
     }
 
     //On touch of tool buttons, sets that as current tool
