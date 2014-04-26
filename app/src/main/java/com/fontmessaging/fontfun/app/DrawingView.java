@@ -1,5 +1,6 @@
 package com.fontmessaging.fontfun.app;
 
+import android.graphics.BitmapFactory;
 import android.os.Debug;
 import android.view.View;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
@@ -59,7 +61,10 @@ public class DrawingView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     //view given size, resizes canvas
         super.onSizeChanged(w, h, oldw, oldh);
-        canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        if(canvasBitmap==null)
+            canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        else
+            canvasBitmap = Bitmap.createBitmap(canvasBitmap, 0, 0, w, h);
         drawCanvas = new Canvas(canvasBitmap);
     }
 
@@ -153,7 +158,7 @@ public class DrawingView extends View {
         return canvasBitmap.compress(Bitmap.CompressFormat.PNG, 50, out);
     }
 
-    public void loadChar(char newChar){
-//        drawCanvas
+    public void loadChar(String fileName){
+        canvasBitmap = BitmapFactory.decodeFile(fileName);
     }
 }

@@ -22,7 +22,7 @@ public class DrawingActivity extends Activity {
     private SQLiteDatabase rdb;
     protected Character currentLetter;
     protected DrawingView draw;
-    private int fontId;
+    private int fontId = 0;
     protected File  cur;
     protected FileOutputStream curOut;
     private String fileName;
@@ -37,21 +37,23 @@ public class DrawingActivity extends Activity {
         String fontName = intent.getStringExtra("currentFont");
         rdb = db.getReadableDatabase();
 
+
+
+        currentLetter = 'a';//sets defualt for current letter
+//        changeChar('a');
+        fileName = fontId+"_"+currentLetter+".png";
         draw = (DrawingView)this.findViewById(R.id.drawingView);
+        try {
+            cur = new File(getFilesDir(), fileName);
+            if(!cur.exists()){
+                cur.createNewFile();
+            }
+            curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
 
-
-//        currentLetter = 'a';//sets defualt for current letter
-////        changeChar('a');
-//        fileName = fontId+"_"+currentLetter.charValue()+".png";
-//        try {
-//            cur = new File(getFilesDir(), fileName);
-//            if(!cur.exists()){
-//                cur.createNewFile();
-//            }
-//            curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+            draw.loadChar(cur.getCanonicalPath());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
         //Displays font name
@@ -92,8 +94,10 @@ public class DrawingActivity extends Activity {
     }
 
     public void changeChar(char newChar) {
+        save();
         currentLetter = newChar;
         fileName = fontId+"_"+currentLetter.charValue()+".png";
+        draw.loadChar(fileName);
         try {
             curOut.close();
             cur = new File(getFilesDir(), fileName);
@@ -101,6 +105,10 @@ public class DrawingActivity extends Activity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void save(View view){
+        save();
     }
 
     public void save(){

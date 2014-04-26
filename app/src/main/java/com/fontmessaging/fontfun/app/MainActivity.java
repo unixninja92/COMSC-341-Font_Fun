@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
     private SQLiteDatabase wdb;
-    final AlertDialog.Builder notExists = new AlertDialog.Builder(this);
+    protected AlertDialog.Builder notExists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         rdb = db.getReadableDatabase();
         wdb = db.getWritableDatabase();
+        notExists = new AlertDialog.Builder(this);
 
         notExists.setNegativeButton("OK", new DialogInterface.OnClickListener() {
             @Override
