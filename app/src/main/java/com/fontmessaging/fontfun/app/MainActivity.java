@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
     private SQLiteDatabase wdb;
+    final AlertDialog.Builder notExists = new AlertDialog.Builder(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         rdb = db.getReadableDatabase();
         wdb = db.getWritableDatabase();
+
+        notExists.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
 
         //gets list of fonts
         final Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
@@ -67,7 +74,6 @@ public class MainActivity extends Activity {
      */
     public void createFont(View view) {
         AlertDialog.Builder nameFont = new AlertDialog.Builder(this);
-        final AlertDialog.Builder fontExists = new AlertDialog.Builder(this);
 
         nameFont.setTitle("New Font");
         nameFont.setMessage("Name of new font:");
@@ -96,13 +102,8 @@ public class MainActivity extends Activity {
                     startActivity(draw);
                 }
                 else {
-                    fontExists.setMessage("Font Already Exists");
-                    fontExists.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                        }
-                    });
-                    fontExists.show();
+                    notExists.setMessage("Font Already Exists");
+                    notExists.show();
                 }
             }
         });
