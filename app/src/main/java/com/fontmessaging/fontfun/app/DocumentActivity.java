@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
-public class DocumentActivity extends ActionBarActivity {
+public class DocumentActivity extends Activity {
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
     private static final String PREFS = "prefs";
