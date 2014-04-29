@@ -46,25 +46,40 @@ public class MainActivity extends Activity {
         //gets list of fonts
         final Cursor listOfFonts = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
         startManagingCursor(listOfFonts);
+        //gets list of documents
+        final Cursor listOfDocs = rdb.query(FontEntry.TABLE_NAME_DOC, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_DOC_NAME}, null, null, null, null, null);
+        startManagingCursor(listOfDocs);
 
         //puts list of fonts in ListView
         final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfFonts, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        final ListView list = (ListView) this.findViewById(R.id.listView);
-        list.setAdapter(cAdapter);
+        final ListView fontListView = (ListView) this.findViewById(R.id.listView);
+        fontListView.setAdapter(cAdapter);
+        //puts list of docs in ListView
+        final SimpleCursorAdapter dAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfDocs, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        final ListView docListView = (ListView) this.findViewById(R.id.listView);
+        docListView.setAdapter(cAdapter);
 
         //opens fonts clicked
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 listOfFonts.moveToPosition(i);
                 openFont(listOfFonts.getString(1), i);
             }
         });
+<<<<<<< HEAD
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("LongClick", "true");
                 return false;
+=======
+        docListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                listOfDocs.moveToPosition(i);
+                openDoc(listOfDocs.getString(1), i);
+>>>>>>> a64392e8201e81ce84d37b377b17e9045fa3704f
             }
         });
     }
@@ -72,6 +87,14 @@ public class MainActivity extends Activity {
     public void openFont(String selectedItem, int pos) {
         Log.d("selected string", selectedItem);
         Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
+        draw.putExtra("currentFont", selectedItem);
+        draw.putExtra("fontID", pos+1);
+        startActivity(draw);
+    }
+
+    public void openDoc(String selectedItem, int pos) {
+        Log.d("selected string", selectedItem);
+        Intent draw = new Intent(MainActivity.this, DocumentActivity.class);
         draw.putExtra("currentFont", selectedItem);
         draw.putExtra("fontID", pos+1);
         startActivity(draw);
@@ -90,7 +113,7 @@ public class MainActivity extends Activity {
         final EditText nameInput = new EditText(this);
         nameFont.setView(nameInput);
 
-        //checks if font name already exists. if it dosen't than the new font is created.
+        //checks if font name already exists. if it doesn't then the new font is created.
         // If it does already exist, then a dialog is opened to notify user and take them
         // back to main screen.
         nameFont.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -133,20 +156,24 @@ public class MainActivity extends Activity {
         nameFont.show();
     }
 
+    //checks if document name already exists. if it doesn't then the new document is created.
+    // If it does already exist, then a dialog is opened to notify user and take them
+    // back to main screen.
     public void createDocument(View view){
+        //create Dialog box New Document
         AlertDialog.Builder nameDoc = new AlertDialog.Builder(this);
-
-        //on create section of main activity-populate doc part **
         nameDoc.setTitle("New Document");
         nameDoc.setMessage("Name of new document:");
 
-        final EditText nameInput = new EditText(this);
+        final EditText nameInput = new EditText(this); //textbox for new doc name
         nameDoc.setView(nameInput);
 
         nameDoc.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String docName = nameInput.getText().toString();
+                        Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, FontEntry.COLUMN_NAME_DOC_NAME+"=""+name")
+                        //here!^
 
                         ContentValues docEntry = new ContentValues();
                         docEntry.put(FontEntry.COLUMN_NAME_DOC_NAME, docName);
@@ -167,7 +194,6 @@ public class MainActivity extends Activity {
         });
 
         nameDoc.show();
-
     }
 
 }
