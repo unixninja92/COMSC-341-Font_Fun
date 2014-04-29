@@ -60,6 +60,13 @@ public class MainActivity extends Activity {
                 openFont(listOfFonts.getString(1), i);
             }
         });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("LongClick", "true");
+                return false;
+            }
+        });
     }
 
     public void openFont(String selectedItem, int pos) {
@@ -101,7 +108,7 @@ public class MainActivity extends Activity {
 
                     Cursor id = rdb.query(FontEntry.TABLE_NAME_FONT,
                             new String[]{FontEntry._ID},
-                            FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'",
+                            FontEntry.COLUMN_NAME_FONT_NAME + " = '" + name + "'",
                             null, null, null, null);
                     id.moveToFirst();
                     int fontID = id.getInt(0);
