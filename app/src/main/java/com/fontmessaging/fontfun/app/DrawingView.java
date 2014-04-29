@@ -62,10 +62,10 @@ public class DrawingView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     //view given size, resizes canvas
         super.onSizeChanged(w, h, oldw, oldh);
-//        if(canvasBitmap==null)
+        if(canvasBitmap==null)
             canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-//        else
-//            canvasBitmap = Bitmap.createBitmap(canvasBitmap, 0, 0, w, h);
+        else
+            canvasBitmap = Bitmap.createBitmap(canvasBitmap, 0, 0, w, h);
         drawCanvas = new Canvas(canvasBitmap);
     }
 
@@ -158,7 +158,7 @@ public class DrawingView extends View {
 
     public void loadChar(String fileName){
         Log.d("fileName", fileName);
-        canvasBitmap = BitmapFactory.decodeFile(fileName);
+        canvasBitmap = BitmapFactory.decodeFile(fileName).copy(Bitmap.Config.ARGB_8888, true);
     }
 
     public void createNewBitmap(int w, int h){
