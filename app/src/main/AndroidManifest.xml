@@ -13,7 +13,9 @@
         android:theme="@style/Theme.AppCompat">
         <activity
             android:name="com.fontmessaging.fontfun.app.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,11 +24,15 @@
         </activity>
         <activity
             android:name="com.fontmessaging.fontfun.app.DrawingActivity"
-            android:label="@string/title_activity_drawing" >
+            android:label="@string/title_activity_drawing"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.fontmessaging.fontfun.app.DocumentActivity"
-            android:label="@string/title_activity_document" >
+            android:label="@string/title_activity_document"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
