@@ -24,6 +24,7 @@ public class DrawingActivity extends Activity {
     private SQLiteDatabase rdb;
     protected Character currentLetter;
     protected DrawingView draw;
+    protected TextView currentChar;
     private int fontId;
     protected File  cur;
     private String fileName;
@@ -40,18 +41,10 @@ public class DrawingActivity extends Activity {
         rdb = db.getReadableDatabase();
 
         draw = (DrawingView)this.findViewById(R.id.drawingView);
+        currentChar = (TextView) this.findViewById(R.id.currentLetter);
 
-//        currentLetter = 'a';//sets defualt for current letter
+        //sets defualt for current letter
         changeChar('a', false);
-//        fileName = fontId+"_"+currentLetter+".png";
-//        try {
-//            cur = new File(getFilesDir(), fileName);
-//            Log.d("File "+cur.getPath()+" exists",cur.exists()+"");
-//            draw.loadChar(cur.getPath());
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
 
         //Displays font name
         TextView name = (TextView)this.findViewById(R.id.fontName);
@@ -91,6 +84,7 @@ public class DrawingActivity extends Activity {
         if(keep)
             save(draw);
         currentLetter = newChar;
+        currentChar.setText(currentLetter.toString());
         fileName = fontId+"_"+(int)currentLetter+".png";
         try {
             cur = new File(getFilesDir(), fileName);
