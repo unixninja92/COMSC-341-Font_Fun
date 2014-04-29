@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
         //puts list of docs in ListView
         final SimpleCursorAdapter dAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfDocs, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final ListView docListView = (ListView) this.findViewById(R.id.docListView);
-        docListView.setAdapter(cAdapter);
+        docListView.setAdapter(dAdapter);
 
         //opens fonts clicked
         fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("LongClick", "true");
-                return false;
+                return true;
             }
         });
 
@@ -97,6 +97,10 @@ public class MainActivity extends Activity {
         draw.putExtra("currentFont", selectedItem);
         draw.putExtra("fontID", pos+1);
         startActivity(draw);
+    }
+
+    public void deleteFont(String selectedItem) {
+        wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry.COLUMN_NAME_FONT_NAME+" = '"+selectedItem+"'", null);
     }
 
     /*
