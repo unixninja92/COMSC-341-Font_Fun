@@ -112,9 +112,11 @@ public class DrawingActivity extends Activity {
         FileOutputStream curOut;
         try {
             curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
-            draw.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, curOut);
+//            draw.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, curOut);
+            draw.setDrawingCacheEnabled(true);
+            draw.saveBitmap(curOut);
             curOut.close();
-            draw.destroyDrawingCache();
+            draw.setDrawingCacheEnabled(false);
         }catch (Exception e){
             e.printStackTrace();
         }

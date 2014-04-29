@@ -1,4 +1,4 @@
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -109,4 +109,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:background="#FFFFFFFF"/>
+
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="com.fontmessaging.fontfun.app.CharacterChooser"
+        android:id="@+id/fragment"
+        tools:layout="@layout/fragment_character_chooser" />
 </LinearLayout>

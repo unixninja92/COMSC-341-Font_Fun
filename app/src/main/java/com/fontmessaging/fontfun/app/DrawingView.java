@@ -164,4 +164,8 @@ public class DrawingView extends View {
     public void createNewBitmap(int w, int h){
         canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
     }
+
+    public void saveBitmap(OutputStream out){
+        canvasBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+    }
 }

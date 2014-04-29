@@ -10,8 +10,14 @@ import android.view.ViewGroup;
  * Created by charles on 4/28/14.
  */
 public class CharacterChooser extends Fragment {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.fragment_character_chooser, container, false);
     }
 }
