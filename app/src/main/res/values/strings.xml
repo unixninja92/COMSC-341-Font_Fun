@@ -14,7 +14,7 @@
     <string name="documents">Documents</string>
     <string name="title_activity_document">DocumentActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="DocumentText" />
+    <string name="DocumentText"></string>
     <string name="send">Send</string>
 
     <string-array name="planets_array">
@@ -27,11 +27,12 @@
         <item>Uranus</item>
         <item>Neptune</item>
     </string-array>
-
     <string-array name="size_array">
         <item>small</item>
         <item>medium</item>
         <item>large</item>
     </string-array>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
