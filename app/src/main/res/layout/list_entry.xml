@@ -8,11 +8,13 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="None"
         android:textAppearance="?android:attr/textAppearanceListItem"
         android:id="@+id/name_entry"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:longClickable="true"
+        android:singleLine="false" />
 
 
 </LinearLayout>

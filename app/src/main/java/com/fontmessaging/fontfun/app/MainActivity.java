@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
         Log.d("selected string", selectedItem);
         Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
         draw.putExtra("currentFont", selectedItem);
-        draw.putExtra("fontID", pos);
+        draw.putExtra("fontID", pos+1);
         startActivity(draw);
     }
 
@@ -99,8 +99,15 @@ public class MainActivity extends Activity {
                     fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
                     wdb.insert("font", null, fontName);
 
+                    Cursor id = rdb.query(FontEntry.TABLE_NAME_FONT,
+                            new String[]{FontEntry._ID},
+                            FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'",
+                            null, null, null, null);
+                    id.moveToFirst();
+                    int fontID = id.getInt(0);
                     Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
                     draw.putExtra("currentFont", name);
+                    draw.putExtra("fontID", fontID);
                     startActivity(draw);
                 }
                 else {
