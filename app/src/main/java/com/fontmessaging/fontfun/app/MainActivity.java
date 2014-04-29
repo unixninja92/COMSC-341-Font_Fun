@@ -163,19 +163,31 @@ public class MainActivity extends Activity {
         nameDoc.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String docName = nameInput.getText().toString();
-                        Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, FontEntry.COLUMN_NAME_DOC_NAME+"=""+name")
-                        //here!^
+                        String docNameInput = nameInput.getText().toString();
+                        Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC,
+                                new String[]{FontEntry.COLUMN_NAME_DOC_NAME},
+                                FontEntry.COLUMN_NAME_DOC_NAME+" = '"+docNameInput+"'",
+                                null, null, null, null);
+                        if (cur.getCount() == 0){
+                            ContentValues docName = new ContentValues();
+                            docName.put(FontEntry.COLUMN_NAME_DOC_NAME, docNameInput);
+                            wdb.insert("doc", null, docName);
 
-                        ContentValues docEntry = new ContentValues();
-                        docEntry.put(FontEntry.COLUMN_NAME_DOC_NAME, docName);
-                        docEntry.put(FontEntry.COLUMN_NAME_FONT_ID, 1);
-                        docEntry.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, "");
-                        wdb.insert(FontEntry.TABLE_NAME_DOC, null, docEntry);
-
-                        Intent doc = new Intent(MainActivity.this, DocumentActivity.class);
-                        doc.putExtra("currentDoc",docName);
-                        startActivity(doc);
+                            Cursor id = rdb.query(FontEntry.TABLE_NAME_DOC,
+                                    new String[]{FontEntry.COLUMN_NAME_DOC_NAME},
+                                    FontEntry.COLUMN_NAME_DOC_NAME+ " = '" +docNameInput+ "'",
+                                    null, null, null, null);
+                            id.moveToFirst();
+                            int docID = id.getInt(0);
+                            Intent document = new Intent(MainActivity.this, DocumentActivity.class);
+                            document.putExtra("currentDoc", docNameInput);
+                            document.putExtra("docID", docID);
+                            startActivity(document);
+                        }
+                        else{
+                            notExists.setMessage("Document Already Exists");
+                            notExists.show();
+                        }
                     }
                 });
 
