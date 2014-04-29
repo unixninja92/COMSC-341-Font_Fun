@@ -52,12 +52,12 @@ public class MainActivity extends Activity {
 
         //puts list of fonts in ListView
         final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfFonts, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        final ListView fontListView = (ListView) this.findViewById(R.id.listView);
+        final ListView fontListView = (ListView) this.findViewById(R.id.fontListView);
         fontListView.setAdapter(cAdapter);
         //puts list of docs in ListView
         final SimpleCursorAdapter dAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfDocs, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        final ListView docListView = (ListView) this.findViewById(R.id.listView);
-        docListView.setAdapter(cAdapter);
+        final ListView docListView = (ListView) this.findViewById(R.id.docListView);
+        docListView.setAdapter(dAdapter);
 
         //opens fonts clicked
         fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,11 +67,18 @@ public class MainActivity extends Activity {
                 openFont(listOfFonts.getString(1), i);
             }
         });
+        fontListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("LongClick", "true");
+                return true;
+            }
+        });
+
         docListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 listOfDocs.moveToPosition(i);
-                openDoc(listOfDocs.getString(1), i);
             }
         });
     }
@@ -90,6 +97,10 @@ public class MainActivity extends Activity {
         draw.putExtra("currentFont", selectedItem);
         draw.putExtra("fontID", pos+1);
         startActivity(draw);
+    }
+
+    public void deleteFont(String selectedItem) {
+        wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry.COLUMN_NAME_FONT_NAME+" = '"+selectedItem+"'", null);
     }
 
     /*
@@ -123,7 +134,7 @@ public class MainActivity extends Activity {
 
                     Cursor id = rdb.query(FontEntry.TABLE_NAME_FONT,
                             new String[]{FontEntry._ID},
-                            FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'",
+                            FontEntry.COLUMN_NAME_FONT_NAME + " = '" + name + "'",
                             null, null, null, null);
                     id.moveToFirst();
                     int fontID = id.getInt(0);
@@ -163,31 +174,19 @@ public class MainActivity extends Activity {
         nameDoc.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String docNameInput = nameInput.getText().toString();
-                        Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC,
-                                new String[]{FontEntry.COLUMN_NAME_DOC_NAME},
-                                FontEntry.COLUMN_NAME_DOC_NAME+" = '"+docNameInput+"'",
-                                null, null, null, null);
-                        if (cur.getCount() == 0){
-                            ContentValues docName = new ContentValues();
-                            docName.put(FontEntry.COLUMN_NAME_DOC_NAME, docNameInput);
-                            wdb.insert("doc", null, docName);
+                        String docName = nameInput.getText().toString();
+//                        Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, FontEntry.COLUMN_NAME_DOC_NAME+"="+"name");
+                        //here!^
 
-                            Cursor id = rdb.query(FontEntry.TABLE_NAME_DOC,
-                                    new String[]{FontEntry.COLUMN_NAME_DOC_NAME},
-                                    FontEntry.COLUMN_NAME_DOC_NAME+ " = '" +docNameInput+ "'",
-                                    null, null, null, null);
-                            id.moveToFirst();
-                            int docID = id.getInt(0);
-                            Intent document = new Intent(MainActivity.this, DocumentActivity.class);
-                            document.putExtra("currentDoc", docNameInput);
-                            document.putExtra("docID", docID);
-                            startActivity(document);
-                        }
-                        else{
-                            notExists.setMessage("Document Already Exists");
-                            notExists.show();
-                        }
+                        ContentValues docEntry = new ContentValues();
+                        docEntry.put(FontEntry.COLUMN_NAME_DOC_NAME, docName);
+                        docEntry.put(FontEntry.COLUMN_NAME_FONT_ID, 1);
+                        docEntry.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, "");
+                        wdb.insert(FontEntry.TABLE_NAME_DOC, null, docEntry);
+
+                        Intent doc = new Intent(MainActivity.this, DocumentActivity.class);
+                        doc.putExtra("currentDoc",docName);
+                        startActivity(doc);
                     }
                 });
 
