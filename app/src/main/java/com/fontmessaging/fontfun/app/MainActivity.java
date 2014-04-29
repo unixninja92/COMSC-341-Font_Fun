@@ -44,11 +44,11 @@ public class MainActivity extends Activity {
         });
 
         //gets list of fonts
-        final Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
-        startManagingCursor(cursor);
+        final Cursor listOfFonts = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
+        startManagingCursor(listOfFonts);
 
         //puts list of fonts in ListView
-        final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, cursor, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfFonts, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final ListView list = (ListView) this.findViewById(R.id.listView);
         list.setAdapter(cAdapter);
 
@@ -56,16 +56,17 @@ public class MainActivity extends Activity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                cursor.moveToPosition(i);
-                openFont(cursor.getString(1));
+                listOfFonts.moveToPosition(i);
+                openFont(listOfFonts.getString(1), i);
             }
         });
     }
 
-    public void openFont(String selectedItem) {
+    public void openFont(String selectedItem, int pos) {
         Log.d("selected string", selectedItem);
         Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
         draw.putExtra("currentFont", selectedItem);
+        draw.putExtra("fontID", pos);
         startActivity(draw);
     }
 

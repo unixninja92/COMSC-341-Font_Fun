@@ -33,12 +33,11 @@ public class DrawingView extends View {
     //currently selected tool
     private boolean pen = true;
     private boolean brush = false;
-    private boolean erase=false;
+    private boolean erase = false;
 
     //brush size
     private int size = 10;
 
-    private int fontID;
 
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -151,18 +150,10 @@ public class DrawingView extends View {
         drawPaint.setStrokeWidth(size);
     }
 
-//    public void setFontID(int id){
-//        fontID = id;
-//    }
-
 
     public void loadChar(String fileName){
         Log.d("fileName", fileName);
         canvasBitmap = BitmapFactory.decodeFile(fileName).copy(Bitmap.Config.ARGB_8888, true);
-    }
-
-    public void createNewBitmap(int w, int h){
-        canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
     }
 
     public void saveBitmap(OutputStream out){

@@ -24,7 +24,7 @@ public class DrawingActivity extends Activity {
     private SQLiteDatabase rdb;
     protected Character currentLetter;
     protected DrawingView draw;
-    private int fontId = 1;
+    private int fontId;
     protected File  cur;
     private String fileName;
 
@@ -36,27 +36,21 @@ public class DrawingActivity extends Activity {
         //gets font name from MainActivity
         Intent intent = getIntent();
         String fontName = intent.getStringExtra("currentFont");
+        fontId = intent.getIntExtra("fontID", 1);
         rdb = db.getReadableDatabase();
 
-
-
-        currentLetter = 'a';//sets defualt for current letter
-//        changeChar('a');
-        fileName = fontId+"_"+currentLetter+".png";
         draw = (DrawingView)this.findViewById(R.id.drawingView);
-        draw.setDrawingCacheEnabled(true);
-        try {
-            cur = new File(getFilesDir(), fileName);
-            Log.d("File "+cur.getPath()+" exists",cur.exists()+"");
-            if(cur.exists()){
-//                cur.createNewFile();
-                Log.d("byte count:",BitmapFactory.decodeFile(cur.getPath()).getByteCount()+"");
-            }
 
-            draw.loadChar(cur.getPath());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        currentLetter = 'a';//sets defualt for current letter
+        changeChar('a', false);
+//        fileName = fontId+"_"+currentLetter+".png";
+//        try {
+//            cur = new File(getFilesDir(), fileName);
+//            Log.d("File "+cur.getPath()+" exists",cur.exists()+"");
+//            draw.loadChar(cur.getPath());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
 
         //Displays font name
@@ -84,7 +78,6 @@ public class DrawingActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 draw.setSize(adapterView.getSelectedItemPosition());
-//                Log.e("klkl", ""+adapterView.getSelectedItemPosition());
             }
 
             @Override
@@ -94,25 +87,23 @@ public class DrawingActivity extends Activity {
         });
     }
 
-//    public void changeChar(char newChar) {
-//        save(draw);
-//        currentLetter = newChar;
-//        fileName = fontId+"_"+currentLetter.charValue()+".png";
-//        draw.loadChar(fileName);
-//        try {
-//            curOut.close();
-//            cur = new File(getFilesDir(), fileName);
-//            curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    public void changeChar(char newChar, boolean keep) {
+        if(keep)
+            save(draw);
+        currentLetter = newChar;
+        fileName = fontId+"_"+(int)currentLetter+".png";
+        try {
+            cur = new File(getFilesDir(), fileName);
+            draw.loadChar(cur.getPath());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public void save(View view){
         FileOutputStream curOut;
         try {
             curOut = openFileOutput(fileName, Context.MODE_PRIVATE);
-//            draw.getDrawingCache().compress(Bitmap.CompressFormat.PNG, 100, curOut);
             draw.setDrawingCacheEnabled(true);
             draw.saveBitmap(curOut);
             curOut.close();
