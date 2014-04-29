@@ -52,11 +52,11 @@ public class MainActivity extends Activity {
 
         //puts list of fonts in ListView
         final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfFonts, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        final ListView fontListView = (ListView) this.findViewById(R.id.listView);
+        final ListView fontListView = (ListView) this.findViewById(R.id.fontListView);
         fontListView.setAdapter(cAdapter);
         //puts list of docs in ListView
         final SimpleCursorAdapter dAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfDocs, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        final ListView docListView = (ListView) this.findViewById(R.id.listView);
+        final ListView docListView = (ListView) this.findViewById(R.id.docListView);
         docListView.setAdapter(cAdapter);
 
         //opens fonts clicked
@@ -67,19 +67,18 @@ public class MainActivity extends Activity {
                 openFont(listOfFonts.getString(1), i);
             }
         });
-<<<<<<< HEAD
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        fontListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("LongClick", "true");
                 return false;
-=======
+            }
+        });
+
         docListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 listOfDocs.moveToPosition(i);
-                openDoc(listOfDocs.getString(1), i);
->>>>>>> a64392e8201e81ce84d37b377b17e9045fa3704f
             }
         });
     }
@@ -172,7 +171,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String docName = nameInput.getText().toString();
-                        Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, FontEntry.COLUMN_NAME_DOC_NAME+"=""+name")
+//                        Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, FontEntry.COLUMN_NAME_DOC_NAME+"="+"name");
                         //here!^
 
                         ContentValues docEntry = new ContentValues();

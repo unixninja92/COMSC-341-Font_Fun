@@ -42,7 +42,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/listView"
+            android:id="@+id/fontListView"
             android:layout_gravity="center_horizontal"
             android:layout_weight=".9"
             android:choiceMode="singleChoice"
@@ -87,6 +87,6 @@
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/listView2" />
+            android:id="@+id/docListView" />
     </LinearLayout>
 </LinearLayout>
