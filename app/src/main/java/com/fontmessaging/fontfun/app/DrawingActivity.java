@@ -117,4 +117,5 @@ public class DrawingActivity extends Activity {
     public void eraserSelect(View view){
         draw.setErase();
     }
+    //TODO Have way of showing which tool is currently selected.
 }
