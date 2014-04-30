@@ -71,6 +71,9 @@ public class MainActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("LongClick", "true");
+                listOfFonts.moveToPosition(i);
+                //TODO Make menu appear in center of screen to either rename or delete font with font name shown at top
+//                deleteFont(listOfFonts.getString(1));
                 return true;
             }
         });
@@ -100,6 +103,9 @@ public class MainActivity extends Activity {
     }
 
     public void deleteFont(String selectedItem) {
+        Cursor fontIDDelete = rdb.query(FontEntry.TABLE_NAME_FONT, new String[]{FontEntry.COLUMN_NAME_FONT_ID}, FontEntry.COLUMN_NAME_FONT_NAME+" = '"+selectedItem+"'",null, null, null, null);
+        fontIDDelete.moveToFirst();
+        //TODO remove image files of font
         wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry.COLUMN_NAME_FONT_NAME+" = '"+selectedItem+"'", null);
     }
 
@@ -123,10 +129,12 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String name = nameInput.getText().toString();
+
                 Cursor cur = rdb.query(FontEntry.TABLE_NAME_FONT,
                         new String[]{FontEntry.COLUMN_NAME_FONT_NAME},
                         FontEntry.COLUMN_NAME_FONT_NAME+" = '"+name+"'",
                         null, null, null, null);
+
                 if(cur.getCount() == 0) {
                     ContentValues fontName = new ContentValues();
                     fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
