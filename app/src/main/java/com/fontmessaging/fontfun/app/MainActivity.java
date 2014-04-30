@@ -6,9 +6,9 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteCursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -16,12 +16,18 @@ import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 
 /*
 * font name based on http://www.raywenderlich.com/56109/make-first-android-app-part-2
+*
 * cursor and cursor adapter based on
 * https://thinkandroid.wordpress.com/2010/01/09/simplecursoradapters-and-listviews/
 * and http://www.vogella.com/tutorials/AndroidListView/article.html#cursor
+*
+* context menus base on
+* http://www.mikeplate.com/2010/01/21/show-a-context-menu-for-long-clicks-in-an-android-listview/
  */
 public class MainActivity extends Activity {
     private FontDbHelper db = new FontDbHelper(this);
@@ -54,10 +60,12 @@ public class MainActivity extends Activity {
         final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfFonts, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final ListView fontListView = (ListView) this.findViewById(R.id.fontListView);
         fontListView.setAdapter(cAdapter);
+        registerForContextMenu(fontListView);
         //puts list of docs in ListView
         final SimpleCursorAdapter dAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfDocs, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final ListView docListView = (ListView) this.findViewById(R.id.docListView);
         docListView.setAdapter(dAdapter);
+        registerForContextMenu(docListView);
 
         //opens fonts clicked
         fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,6 +127,7 @@ public class MainActivity extends Activity {
                 FontEntry.COLUMN_NAME_FONT_NAME+" = '"+selectedItem+"'",
                 null, null, null, null);
         fontIDDelete.moveToFirst();
+        int id = fontIDDelete.getInt(0);
         //TODO remove image files of font
         wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry.COLUMN_NAME_FONT_NAME + " = '" + selectedItem + "'", null);
     }
@@ -233,6 +242,18 @@ public class MainActivity extends Activity {
         });
 
         nameDoc.show();
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenuInfo menuInfo) {
+        if (v.getId()==R.id.fontListView) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            menu.setHeaderTitle(info.position);
+            String[] menuItems = getResources().getStringArray(R.array.menu_array);
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+        }
     }
 
 }
