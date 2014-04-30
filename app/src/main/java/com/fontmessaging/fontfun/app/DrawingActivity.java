@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,6 +26,9 @@ public class DrawingActivity extends Activity {
     protected Character currentLetter;
     protected DrawingView draw;
     protected TextView currentChar;
+    private Button pen;
+    private Button brush;
+    private Button eraser;
     private int fontId;
     protected File  cur;
     private String fileName;
@@ -42,6 +46,9 @@ public class DrawingActivity extends Activity {
 
         draw = (DrawingView)this.findViewById(R.id.drawingView);
         currentChar = (TextView) this.findViewById(R.id.currentLetter);
+        pen = (Button) this.findViewById(R.id.penButton);
+        brush = (Button) this.findViewById(R.id.brushButton);
+        eraser = (Button) this.findViewById(R.id.eraserButton);
 
         //sets default for current letter
         changeChar('a', false);
@@ -109,6 +116,11 @@ public class DrawingActivity extends Activity {
 
     //On touch of tool buttons, sets that as current tool
     public void penSelect(View view){
+        pen.setTextColor(0xFF000099);
+        //TODO get better color
+//        pen.setBackgroundColor(0xFF000044);
+        brush.setSelected(false);
+        eraser.setSelected(false);
         draw.setPen();
     }
     public void brushSelect(View view){

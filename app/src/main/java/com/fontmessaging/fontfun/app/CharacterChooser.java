@@ -13,11 +13,9 @@ import java.util.ArrayList;
  * Created by charles on 4/28/14.
  */
 public class CharacterChooser extends Fragment {
-    ArrayList<Button> upperCase;
-    ArrayList<Button> lowerCase;
-    ArrayList<Button> numbers;
+    ArrayList<Button> buttons;
 
-    private static final int[] UPPER_IDS = {
+    private static final int[] BUTTON_IDS = {
             R.id.button65,
             R.id.button66,
             R.id.button67,
@@ -43,10 +41,7 @@ public class CharacterChooser extends Fragment {
             R.id.button87,
             R.id.button88,
             R.id.button89,
-            R.id.button90
-    };
-
-    private static final int[] LOWER_IDS = {
+            R.id.button90,
             R.id.button97,
             R.id.button98,
             R.id.button99,
@@ -72,10 +67,7 @@ public class CharacterChooser extends Fragment {
             R.id.button119,
             R.id.button120,
             R.id.button121,
-            R.id.button122
-    };
-
-    private static final int[] NUMBER_IDS = {
+            R.id.button122,
             R.id.button49,
             R.id.button50,
             R.id.button51,
@@ -90,25 +82,30 @@ public class CharacterChooser extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        upperCase = new ArrayList<Button>();
-        lowerCase = new ArrayList<Button>();
-        numbers = new ArrayList<Button>();
+        buttons = new ArrayList<Button>();
 
         super.onCreate(savedInstanceState);
 
-        for(int id: UPPER_IDS){
-            upperCase.add((Button)this.getActivity().findViewById(id));
+        for(int id: BUTTON_IDS){
+            buttons.add((Button)this.getActivity().findViewById(id));
         }
 
-        for(int id: LOWER_IDS){
-            lowerCase.add((Button)this.getActivity().findViewById(id));
-        }
-
-        for(int id: NUMBER_IDS){
-            numbers.add((Button)this.getActivity().findViewById(id));
+        for(Button b: buttons){
+//            b.setOnClickListener();
         }
     }
 
+    protected class ButtonClick implements View.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            Button b = (Button) view;
+            b.getText();
+            ((DrawingActivity)getActivity()).changeChar(b.getText().charAt(0), true);
+//            b.setPressed(true);
+            b.setSelected(true);
+
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_character_chooser, container, false);

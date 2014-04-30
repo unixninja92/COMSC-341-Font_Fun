@@ -77,7 +77,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/brushButton2"
+            android:id="@+id/brushButton"
             android:layout_weight="0"
             android:text="@string/brush"
             android:onClick="brushSelect"/>
@@ -85,7 +85,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/eraserButton3"
+            android:id="@+id/eraserButton"
             android:layout_weight="0"
             android:text="@string/eraser"
             android:onClick="eraserSelect"/>
