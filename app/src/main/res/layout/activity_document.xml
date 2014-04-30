@@ -45,7 +45,8 @@
             android:text="@string/save"
             android:layout_weight="0"
             android:id="@+id/saveButton"
-            android:enabled="true" />
+            android:enabled="true"
+            android:onClick="saveDoc" />
 
         <Button
             style="?android:attr/buttonStyleSmall"

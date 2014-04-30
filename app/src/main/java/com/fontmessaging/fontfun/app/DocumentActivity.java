@@ -1,16 +1,14 @@
 package com.fontmessaging.fontfun.app;
 
+import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -21,10 +19,11 @@ import java.io.File;
 public class DocumentActivity extends Activity {
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
+    private SQLiteDatabase wdb;
     private int docID;
     private int fontID;
-    protected File currentFile;
-    private String fileName;
+    private String documentText;
+    private EditText simpleEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +35,7 @@ public class DocumentActivity extends Activity {
         String docName = intent.getStringExtra("currentDoc");
         docID = intent.getIntExtra("docID", 1);
         rdb = db.getReadableDatabase();
+        wdb = db.getWritableDatabase();
 
         //respectively pulling font ID, doc Contents
         Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC,
@@ -44,20 +44,15 @@ public class DocumentActivity extends Activity {
                 null, null, null, null);
         cur.moveToFirst();
         fontID = cur.getInt(0);
+        documentText = cur.getString(1);
 
+        //display document name & contents
         TextView name = (TextView)this.findViewById(R.id.documentName);
         name.setText(docName);
+        simpleEditText = (EditText) findViewById(R.id.DocumentText);
+        simpleEditText.setText(documentText);
 
-        final EditText simpleEditText = (EditText) findViewById(R.id.DocumentText);
-        simpleEditText.setText(cur.getString(1));
-
-        simpleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                String strValue = simpleEditText.getText().toString();
-//                Log.d(DEBUG_TAG, "User set EditText value to " + strValue);
-            }
-        });
-        String strValue = simpleEditText.getText().toString();
+        //simpleEditText.setKey/OnKey Listener?
 
         //spinner listing all fonts.
         Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
@@ -67,6 +62,18 @@ public class DocumentActivity extends Activity {
         Spinner spinner = (Spinner) findViewById(R.id.fontSpinner);
         spinner.setAdapter(cAdapter);   // Apply the adapter to the spinner
 
+    }
+
+
+    public void saveDoc(View view){
+        Log.d("Start Save", "inside saveDoc method");
+        documentText = simpleEditText.getText().toString();
+        Log.d("Saving", "document text = " + documentText);
+
+        ContentValues updatedRow = new ContentValues();
+        updatedRow.put(FontEntry.COLUMN_NAME_FONT_ID, fontID);
+        updatedRow.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, documentText);
+        wdb.update(FontEntry.TABLE_NAME_DOC, updatedRow, FontEntry._ID + " = " + docID, null);
     }
 
 }
