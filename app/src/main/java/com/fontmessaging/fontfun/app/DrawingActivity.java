@@ -2,6 +2,7 @@ package com.fontmessaging.fontfun.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -29,6 +30,8 @@ public class DrawingActivity extends Activity {
     private Button pen;
     private Button brush;
     private Button eraser;
+    private final int selectedColor = 0xFF2FBBF7;
+    private final int deselectedColor = 0xFFFFFFFF;
     private int fontId;
     protected File  cur;
     private String fileName;
@@ -37,7 +40,6 @@ public class DrawingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
-
         //gets font name from MainActivity
         Intent intent = getIntent();
         String fontName = intent.getStringExtra("currentFont");
@@ -49,6 +51,9 @@ public class DrawingActivity extends Activity {
         pen = (Button) this.findViewById(R.id.penButton);
         brush = (Button) this.findViewById(R.id.brushButton);
         eraser = (Button) this.findViewById(R.id.eraserButton);
+
+
+        pen.setTextColor(selectedColor);
 
         //sets default for current letter
         changeChar('a', false);
@@ -116,17 +121,21 @@ public class DrawingActivity extends Activity {
 
     //On touch of tool buttons, sets that as current tool
     public void penSelect(View view){
-        pen.setTextColor(0xFF000099);
-        //TODO get better color
-//        pen.setBackgroundColor(0xFF000044);
-        brush.setSelected(false);
-        eraser.setSelected(false);
+        pen.setTextColor(selectedColor);
+        brush.setTextColor(deselectedColor);
+        eraser.setTextColor(deselectedColor);
         draw.setPen();
     }
     public void brushSelect(View view){
+        brush.setTextColor(selectedColor);
+        pen.setTextColor(deselectedColor);
+        eraser.setTextColor(deselectedColor);
         draw.setBrush();
     }
     public void eraserSelect(View view){
+        eraser.setTextColor(selectedColor);
+        pen.setTextColor(deselectedColor);
+        brush.setTextColor(deselectedColor);
         draw.setErase();
     }
     //TODO Have way of showing which tool is currently selected.
