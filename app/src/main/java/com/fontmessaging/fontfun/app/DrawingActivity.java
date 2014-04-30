@@ -57,7 +57,7 @@ public class DrawingActivity extends FragmentActivity {
         pen.setTextColor(selectedColor);
 
         //sets default for current letter
-        changeChar('A', false);
+
 
         //Displays font name
         TextView name = (TextView)this.findViewById(R.id.fontName);
@@ -91,6 +91,8 @@ public class DrawingActivity extends FragmentActivity {
 
             }
         });
+
+        changeChar('A', false);
     }
 
     public void changeChar(char newChar, boolean keep) {

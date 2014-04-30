@@ -82,13 +82,13 @@ public class DrawingView extends View {
         float touchX = event.getX();
         float touchY = event.getY();
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_DOWN://finger touches screen
                 drawPath.moveTo(touchX, touchY);
                 break;
-            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_MOVE://finger moves on screen
                 drawPath.lineTo(touchX, touchY);
                 break;
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_UP://finger is removed from screen
                 drawCanvas.drawPath(drawPath, drawPaint);
                 drawPath.reset();
                 break;
@@ -154,10 +154,13 @@ public class DrawingView extends View {
 
     public void loadChar(String fileName, boolean exists){
         Log.d("fileName", fileName);
+        Log.d("DrawingView width", getWidth()+"");
+        Log.d("DrawingView height", getHeight()+"");
         if(exists)
             canvasBitmap = BitmapFactory.decodeFile(fileName).copy(Bitmap.Config.ARGB_8888, true);
         else
             canvasBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        drawCanvas = new Canvas(canvasBitmap);
 
         invalidate();
     }

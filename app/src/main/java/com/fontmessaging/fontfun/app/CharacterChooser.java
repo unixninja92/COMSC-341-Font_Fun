@@ -88,7 +88,7 @@ public class CharacterChooser extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buttons = new ArrayList<Button>();
-        currentButton = 1;
+        currentButton = 0;
     }
 
     @Override
@@ -100,8 +100,9 @@ public class CharacterChooser extends Fragment implements View.OnClickListener{
         @Override
         public void onClick(View view) {
             DrawingActivity cur = (DrawingActivity)getActivity();
-            buttons.get(currentButton).setTextColor(deselectedColor);
             Button b = (Button) view;
+
+            buttons.get(currentButton).setTextColor(deselectedColor);
             Log.d("button clicked", (String) b.getText());
             b.getText();
             cur.changeChar(b.getText().charAt(0), true);
@@ -120,6 +121,7 @@ public class CharacterChooser extends Fragment implements View.OnClickListener{
 //            Log.d("button text", (String) b.getText());
             b.setOnClickListener(this);
         }
+        buttons.get(currentButton).setTextColor(selectedColor);
         return view;
     }
 }
