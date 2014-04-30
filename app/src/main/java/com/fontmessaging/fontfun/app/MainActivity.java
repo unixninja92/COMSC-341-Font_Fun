@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -75,16 +76,16 @@ public class MainActivity extends Activity {
                 openFont(listOfFonts.getString(1), i);
             }
         });
-        fontListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("LongClick", "true");
-                listOfFonts.moveToPosition(i);
-                //TODO Make menu appear in center of screen to either rename or delete font with font name shown at top
-//                deleteFont(listOfFonts.getString(1));
-                return true;
-            }
-        });
+//        fontListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d("LongClick", "true");
+//                listOfFonts.moveToPosition(i);
+//                //TODO Make menu appear in center of screen to either rename or delete font with font name shown at top
+////                deleteFont(listOfFonts.getString(1));
+//                return true;
+//            }
+//        });
 
         docListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,16 +94,16 @@ public class MainActivity extends Activity {
                 openDoc(listOfDocs.getString(1), i);
             }
         });
-        docListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("LongClick", "true");
-                listOfDocs.moveToPosition(i);
-                //TODO Make menu appear in center of screen to either rename or delete doc with document name shown at top
-//                deleteDoc(listOfDocs.getString(1));
-                return true;
-            }
-        });
+//        docListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Log.d("LongClick", "true");
+//                listOfDocs.moveToPosition(i);
+//                //TODO Make menu appear in center of screen to either rename or delete doc with document name shown at top
+////                deleteDoc(listOfDocs.getString(1));
+//                return true;
+//            }
+//        });
     }
 
     public void openFont(String selectedItem, int pos) {
@@ -248,7 +249,7 @@ public class MainActivity extends Activity {
                                     ContextMenuInfo menuInfo) {
         if (v.getId()==R.id.fontListView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-            menu.setHeaderTitle(info.position);
+            menu.setHeaderTitle("Font:");
             String[] menuItems = getResources().getStringArray(R.array.menu_array);
             for (int i = 0; i<menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
@@ -256,5 +257,24 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        //rename
+        switch (item.getItemId()){
+            case 0://rename
+                break;
+            case 1://delete
+                break;
+        }
+//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+//        int menuItemIndex = item.getItemId();
+//        String[] menuItems = getResources().getStringArray(R.array.menu_array);
+//        String menuItemName = menuItems[menuItemIndex];
+//        String listItemName = Countries[info.position];
+//
+//        TextView text = (TextView)findViewById(R.id.footer);
+//        text.setText(String.format("Selected %s for item %s", menuItemName, listItemName));
+        return true;
+    }
 }
 
