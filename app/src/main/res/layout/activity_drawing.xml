@@ -20,12 +20,13 @@
             android:layout_weight="0.17"
             android:textSize="20dp"
             android:textAlignment="gravity"
-            android:gravity="center_vertical|center_horizontal" />
+            android:gravity="center_vertical|center_horizontal"
+            android:width="40dp" />
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.17" />
+            android:layout_weight="0.30" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,7 +40,7 @@
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.32" />
+            android:layout_weight="0.25" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="@string/save"
             android:id="@+id/button"
-            android:layout_weight="0.17"
+            android:layout_weight="0.10"
             android:onClick="save" />
 
     </LinearLayout>
