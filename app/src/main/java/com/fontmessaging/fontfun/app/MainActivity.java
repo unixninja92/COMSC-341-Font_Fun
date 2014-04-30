@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
         Log.d("selected string", selectedItem);
         Intent type = new Intent(MainActivity.this, DocumentActivity.class);
         type.putExtra("currentDoc", selectedItem);
-        type.putExtra("docID", pos+1);
+        type.putExtra("docID", pos + 1);
         startActivity(type);
     }
 
@@ -120,7 +120,7 @@ public class MainActivity extends Activity {
                 null, null, null, null);
         fontIDDelete.moveToFirst();
         //TODO remove image files of font
-        wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry.COLUMN_NAME_FONT_NAME+" = '"+selectedItem+"'", null);
+        wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry.COLUMN_NAME_FONT_NAME + " = '" + selectedItem + "'", null);
     }
 
     /*
@@ -196,19 +196,33 @@ public class MainActivity extends Activity {
         nameDoc.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String docName = nameInput.getText().toString();
-//                        Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, FontEntry.COLUMN_NAME_DOC_NAME+"="+"name");
-                        //here!^
-
-                        ContentValues docEntry = new ContentValues();
-                        docEntry.put(FontEntry.COLUMN_NAME_DOC_NAME, docName);
-                        docEntry.put(FontEntry.COLUMN_NAME_FONT_ID, 1);
-                        docEntry.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, "");
-                        wdb.insert(FontEntry.TABLE_NAME_DOC, null, docEntry);
-
-                        Intent doc = new Intent(MainActivity.this, DocumentActivity.class);
-                        doc.putExtra("currentDoc",docName);
-                        startActivity(doc);
+                        String docNameGiven = nameInput.getText().toString();
+                        Cursor cur = rdb.query(FontEntry.TABLE_NAME_DOC,
+                                new String[]{FontEntry.COLUMN_NAME_DOC_NAME},
+                                FontEntry.COLUMN_NAME_DOC_NAME + " = '" + docNameGiven + "'",
+                                null, null, null, null);
+                        if (cur.getCount() == 0) {
+                            //add to table.
+                            ContentValues docEntry = new ContentValues();
+                            docEntry.put(FontEntry.COLUMN_NAME_DOC_NAME, docNameGiven);
+                            docEntry.put(FontEntry.COLUMN_NAME_FONT_ID, 0);
+                            docEntry.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, "");
+                            wdb.insert(FontEntry.TABLE_NAME_DOC, null, docEntry);
+                            //open Doc from all documents
+                            Cursor id = rdb.query(FontEntry.TABLE_NAME_DOC,
+                                    new String[]{FontEntry.COLUMN_NAME_DOC_NAME},
+                                    FontEntry.COLUMN_NAME_DOC_NAME + " = '" + docNameGiven + "'",
+                                    null, null, null, null);
+                            id.moveToFirst();
+                            int docID = id.getInt(0);
+                            Intent type = new Intent(MainActivity.this, DocumentActivity.class);
+                            type.putExtra("currentDoc", docNameGiven);
+                            type.putExtra("docID", docID);
+                            startActivity(type);
+                        }else{
+                            notExists.setMessage("Document Already Exists");
+                            notExists.show();
+                        }
                     }
                 });
 
