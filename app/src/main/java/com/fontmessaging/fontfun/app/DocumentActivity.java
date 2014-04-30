@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.view.View;
@@ -62,13 +63,23 @@ public class DocumentActivity extends Activity {
         Spinner spinner = (Spinner) findViewById(R.id.fontSpinner);
         spinner.setAdapter(cAdapter);   // Apply the adapter to the spinner
 
+        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
+                cursor.moveToPosition(i);
+                fontID = i;
+                Log.d("setting font?", "font = " i);
+            }
+        });
+
     }
 
 
     public void saveDoc(View view){
-        Log.d("Start Save", "inside saveDoc method");
+        //Log.d("Start Save", "inside saveDoc method");
         documentText = simpleEditText.getText().toString();
-        Log.d("Saving", "document text = " + documentText);
+        //Log.d("Saving", "document text = " + documentText);
+        //fontID = spinner.
 
         ContentValues updatedRow = new ContentValues();
         updatedRow.put(FontEntry.COLUMN_NAME_FONT_ID, fontID);
