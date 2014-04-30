@@ -2,6 +2,7 @@ package com.fontmessaging.fontfun.app;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import java.util.ArrayList;
 /**
  * Created by charles on 4/28/14.
  */
-public class CharacterChooser extends Fragment {
+public class CharacterChooser extends Fragment implements View.OnClickListener{
     ArrayList<Button> buttons;
+    int currentButton;
+    private final int selectedColor = 0xFF2FBBF7;
+    private final int deselectedColor = 0xFFFFFFFF;
 
     private static final int[] BUTTON_IDS = {
             R.id.button65,
@@ -82,32 +86,40 @@ public class CharacterChooser extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        buttons = new ArrayList<Button>();
-
         super.onCreate(savedInstanceState);
-
-        for(int id: BUTTON_IDS){
-            buttons.add((Button)this.getActivity().findViewById(id));
-        }
-
-        for(Button b: buttons){
-//            b.setOnClickListener();
-        }
+        buttons = new ArrayList<Button>();
+        currentButton = 1;
     }
 
-    protected class ButtonClick implements View.OnClickListener{
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    //    protected class ButtonClick implements View.OnClickListener{
         @Override
         public void onClick(View view) {
+
+            DrawingActivity cur = (DrawingActivity)getActivity();
+            buttons.get(currentButton).setTextColor(deselectedColor);
             Button b = (Button) view;
             b.getText();
-            ((DrawingActivity)getActivity()).changeChar(b.getText().charAt(0), true);
-//            b.setPressed(true);
-            b.setSelected(true);
+            cur.changeChar(b.getText().charAt(0), true);
+            b.setTextColor(selectedColor);
+            currentButton = buttons.indexOf(b);
 
         }
-    }
+//    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_character_chooser, container, false);
+        View view =  inflater.inflate(R.layout.fragment_character_chooser, container, false);
+        for(int id: BUTTON_IDS){
+            buttons.add((Button)view.findViewById(id));
+        }
+        for(Button b: buttons){
+//            Log.d("button text", (String) b.getText());
+            b.setOnClickListener(this);
+        }
+        return view;
     }
 }

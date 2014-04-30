@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +22,7 @@ import android.content.Intent;
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class DrawingActivity extends Activity {
+public class DrawingActivity extends FragmentActivity {
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
     protected Character currentLetter;
@@ -56,7 +57,7 @@ public class DrawingActivity extends Activity {
         pen.setTextColor(selectedColor);
 
         //sets default for current letter
-        changeChar('a', false);
+        changeChar('A', false);
 
         //Displays font name
         TextView name = (TextView)this.findViewById(R.id.fontName);
