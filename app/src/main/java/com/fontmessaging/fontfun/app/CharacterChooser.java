@@ -99,10 +99,10 @@ public class CharacterChooser extends Fragment implements View.OnClickListener{
     //    protected class ButtonClick implements View.OnClickListener{
         @Override
         public void onClick(View view) {
-
             DrawingActivity cur = (DrawingActivity)getActivity();
             buttons.get(currentButton).setTextColor(deselectedColor);
             Button b = (Button) view;
+            Log.d("button clicked", (String) b.getText());
             b.getText();
             cur.changeChar(b.getText().charAt(0), true);
             b.setTextColor(selectedColor);

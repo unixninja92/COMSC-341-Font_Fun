@@ -101,7 +101,10 @@ public class DrawingActivity extends FragmentActivity {
         fileName = fontId+"_"+(int)currentLetter+".png";
         try {
             cur = new File(getFilesDir(), fileName);
-            draw.loadChar(cur.getPath());
+            if(cur.exists())
+                draw.loadChar(cur.getPath(), true);
+            else
+                draw.loadChar(cur.getPath(), false);
         }catch (Exception e){
             e.printStackTrace();
         }

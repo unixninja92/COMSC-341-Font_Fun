@@ -152,9 +152,14 @@ public class DrawingView extends View {
     }
 
 
-    public void loadChar(String fileName){
+    public void loadChar(String fileName, boolean exists){
         Log.d("fileName", fileName);
-        canvasBitmap = BitmapFactory.decodeFile(fileName).copy(Bitmap.Config.ARGB_8888, true);
+        if(exists)
+            canvasBitmap = BitmapFactory.decodeFile(fileName).copy(Bitmap.Config.ARGB_8888, true);
+        else
+            canvasBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+
+        invalidate();
     }
 
     public void saveBitmap(OutputStream out){
