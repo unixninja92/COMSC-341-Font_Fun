@@ -82,6 +82,17 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 listOfDocs.moveToPosition(i);
+                openDoc(listOfDocs.getString(1), i);
+            }
+        });
+        docListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("LongClick", "true");
+                listOfDocs.moveToPosition(i);
+                //TODO Make menu appear in center of screen to either rename or delete doc with document name shown at top
+//                deleteDoc(listOfDocs.getString(1));
+                return true;
             }
         });
     }
@@ -97,8 +108,8 @@ public class MainActivity extends Activity {
     public void openDoc(String selectedItem, int pos) {
         Log.d("selected string", selectedItem);
         Intent draw = new Intent(MainActivity.this, DocumentActivity.class);
-        draw.putExtra("currentFont", selectedItem);
-        draw.putExtra("fontID", pos+1);
+        draw.putExtra("currentDoc", selectedItem);
+        draw.putExtra("docID", pos+1);
         startActivity(draw);
     }
 
