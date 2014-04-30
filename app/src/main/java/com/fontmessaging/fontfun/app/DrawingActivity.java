@@ -43,7 +43,7 @@ public class DrawingActivity extends Activity {
         draw = (DrawingView)this.findViewById(R.id.drawingView);
         currentChar = (TextView) this.findViewById(R.id.currentLetter);
 
-        //sets defualt for current letter
+        //sets default for current letter
         changeChar('a', false);
 
         //Displays font name
