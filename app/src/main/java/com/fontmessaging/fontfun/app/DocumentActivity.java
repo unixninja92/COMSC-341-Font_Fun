@@ -56,19 +56,24 @@ public class DocumentActivity extends Activity {
         //simpleEditText.setKey/OnKey Listener?
 
         //spinner listing all fonts.
-        Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
+        final Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
         startManagingCursor(cursor);
         SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry,cursor,
                 new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         Spinner spinner = (Spinner) findViewById(R.id.fontSpinner);
         spinner.setAdapter(cAdapter);   // Apply the adapter to the spinner
+        spinner.setSelection(fontID);
 
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        //changes font used in doc based on spinner item selected
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
-                cursor.moveToPosition(i);
-                fontID = i;
-                Log.d("setting font?", "font = " i);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                fontID = adapterView.getSelectedItemPosition();
+                Log.d("Saving new font for doc", "fontID = " + fontID);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -77,9 +82,8 @@ public class DocumentActivity extends Activity {
 
     public void saveDoc(View view){
         //Log.d("Start Save", "inside saveDoc method");
-        documentText = simpleEditText.getText().toString();
+        documentText = simpleEditText.getText().toString(); //saves documentText only on click of save button. Changes in fontID are recorded as changed...for now.
         //Log.d("Saving", "document text = " + documentText);
-        //fontID = spinner.
 
         ContentValues updatedRow = new ContentValues();
         updatedRow.put(FontEntry.COLUMN_NAME_FONT_ID, fontID);
