@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
     private SQLiteDatabase rdb;
     private SQLiteDatabase wdb;
     protected AlertDialog.Builder notExists;
+    private int numFonts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MainActivity extends Activity {
         final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfFonts, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final ListView fontListView = (ListView) this.findViewById(R.id.fontListView);
         fontListView.setAdapter(cAdapter);
+        numFonts = fontListView.getCount();
         //puts list of docs in ListView
         final SimpleCursorAdapter dAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfDocs, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final ListView docListView = (ListView) this.findViewById(R.id.docListView);
@@ -81,8 +83,13 @@ public class MainActivity extends Activity {
         docListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                listOfDocs.moveToPosition(i);
-                openDoc(listOfDocs.getString(1), i);
+                if (fontListView.getCount() == 0){
+                    notExists.setMessage("Please create a font before starting or editing a document.");
+                    notExists.show();
+                }else {
+                    listOfDocs.moveToPosition(i);
+                    openDoc(listOfDocs.getString(1), i);
+                }
             }
         });
         docListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -121,6 +128,7 @@ public class MainActivity extends Activity {
         fontIDDelete.moveToFirst();
         //TODO remove image files of font
         wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry.COLUMN_NAME_FONT_NAME + " = '" + selectedItem + "'", null);
+        numFonts --;
     }
 
     /*
@@ -153,6 +161,7 @@ public class MainActivity extends Activity {
                     ContentValues fontName = new ContentValues();
                     fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
                     wdb.insert("font", null, fontName);
+                    numFonts ++;
 
                     Cursor id = rdb.query(FontEntry.TABLE_NAME_FONT,
                             new String[]{FontEntry._ID},
@@ -185,6 +194,12 @@ public class MainActivity extends Activity {
     // If it does already exist, then a dialog is opened to notify user and take them
     // back to main screen.
     public void createDocument(View view){
+        if (numFonts == 0){
+            notExists.setMessage("Please create a font before starting a document.");
+            notExists.show();
+            return;
+        }
+
         //create Dialog box New Document
         AlertDialog.Builder nameDoc = new AlertDialog.Builder(this);
         nameDoc.setTitle("New Document");
@@ -205,7 +220,7 @@ public class MainActivity extends Activity {
                             //add to table.
                             ContentValues docEntry = new ContentValues();
                             docEntry.put(FontEntry.COLUMN_NAME_DOC_NAME, docNameGiven);
-                            docEntry.put(FontEntry.COLUMN_NAME_FONT_ID, 0);
+                            docEntry.put(FontEntry.COLUMN_NAME_FONT_ID, 1);
                             docEntry.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, "");
                             wdb.insert(FontEntry.TABLE_NAME_DOC, null, docEntry);
                             //open Doc from all documents
