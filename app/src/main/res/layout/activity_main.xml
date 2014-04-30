@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight=".1"
-            style="@style/Widget.AppCompat.Light.Base.ActionBar">
+            style="@style/Widget.AppCompat.Light.Base.ActionBar"
+            android:padding="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -24,7 +25,8 @@
                 android:text="@string/fonts"
                 android:id="@+id/textView"
                 android:gravity="center_vertical|center_horizontal"
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textSize="26dp" />
 
             <Space
                 android:layout_width="20px"
@@ -60,7 +62,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Base.ActionBar">
+            style="@style/Widget.AppCompat.Base.ActionBar"
+            android:padding="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,7 +71,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/documents"
                 android:id="@+id/textView2"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:textSize="26dp" />
 
             <Space
                 android:layout_width="20px"
