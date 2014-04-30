@@ -161,7 +161,6 @@ public class DrawingView extends View {
         else
             canvasBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         drawCanvas = new Canvas(canvasBitmap);
-
         invalidate();
     }
 
