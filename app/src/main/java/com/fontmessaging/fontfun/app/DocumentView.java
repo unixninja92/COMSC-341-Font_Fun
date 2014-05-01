@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -14,8 +13,10 @@ import android.view.View;
  * Created by Nicole on 4/30/2014.
  */
 public class DocumentView extends View {
-   // static String path = Context.getFilesDir().getPath();
-    Bitmap[] charMaps = new Bitmap[2];
+    static final int CHAR_WIDTH = 100;
+    static final int CHAR_HEIGHT = 100;
+    static final int FAKE_KERN = -50;
+    Bitmap[] charMaps = new Bitmap[24];
     private Paint drawPaint;
 
     public DocumentView(Context context, AttributeSet attrs){
@@ -28,25 +29,26 @@ public class DocumentView extends View {
 
     @Override
     protected void onDraw(Canvas canvas){
-        //TODO Auto-generated method stub??
-//        canvas.drawCircle(50, 50, 50, null);
-
         //int caller = getIntent().getIntExtra("button", 0); //is this for finding character?
-        //switch (caller){
-            //case ...:
-                //hashmapped bMap.mStore.get(tag);
-         //       canvas.drawBitmap(bMap,100, 100, null);
-                //bMap.recycle();
-                //break;
-            //more cases...
-       // }
+        //for tomorrow(setting up all asciis! and getting intent with info from database)
+
         super.onDraw(canvas);
-       // canvas.drawCircle(50, 50, 50, drawPaint);
+        //how to find screen widths for given device? investigate later: int pixel=this.getWindowManager().getDefaultDisplay().getWidth()
+        int screenWidth = 800;
+        int screenMargin = screenWidth - (CHAR_WIDTH + FAKE_KERN);
+        int xUnwrapped = 0;
+        int paragraphSpacing = -30;
+        int row = 0;
 
-       // canvas.drawColor(Color.BLACK);
-        canvas.drawBitmap(charMaps[1], 0 / 2, 0 / 2, null);
-        //canvas.drawBitmap(bMap, 100, 100, null);
+        for (int i = 0; i < charMaps.length; i++){
+                row = xUnwrapped/screenMargin;
+                //Log.d("Document View", xUnwrapped + "/" + screenMargin + "=" + row);
+                canvas.drawBitmap(charMaps[i], (xUnwrapped % screenMargin), (CHAR_HEIGHT*row+paragraphSpacing*row), null);
+                xUnwrapped = xUnwrapped + CHAR_WIDTH + FAKE_KERN;
+                //Log.d("Document View", "you are on letter " + i + "and the cursor value is " + xUnwrapped);
+        }
 
+        //canvas.drawBitmap(charMaps[1], 0, 0, null);
     }
 
     public void init(){
@@ -56,8 +58,7 @@ public class DocumentView extends View {
 
         for(int i = 0; i < charMaps.length; i++){
             fileName = fontID+"_"+(((int)currentLetter)+i)+".png";
-            charMaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/"+fileName), 100, 100, false);
-
+            charMaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/"+fileName), CHAR_WIDTH, CHAR_HEIGHT, false);
             if (charMaps[i] == null){
                 Log.d("Document View", "bMap null");
             }else{
