@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 /*
 * font name based on http://www.raywenderlich.com/56109/make-first-android-app-part-2
-*
+* 
 * cursor and cursor adapter based on
 * https://thinkandroid.wordpress.com/2010/01/09/simplecursoradapters-and-listviews/
 * and http://www.vogella.com/tutorials/AndroidListView/article.html#cursor
@@ -37,6 +37,7 @@ public class MainActivity extends Activity {
     private SQLiteDatabase wdb;
     protected AlertDialog.Builder notExists;
     protected ListView fontListView;
+    private int numFonts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +59,14 @@ public class MainActivity extends Activity {
         //gets list of documents
         final Cursor listOfDocs = rdb.query(FontEntry.TABLE_NAME_DOC, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_DOC_NAME}, null, null, null, null, null);
         startManagingCursor(listOfDocs);
+
         //puts list of fonts in ListView
         final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfFonts, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         fontListView = (ListView) this.findViewById(R.id.fontListView);
         fontListView.setAdapter(cAdapter);
         registerForContextMenu(fontListView);
         fontListView.invalidate();
+        numFonts = fontListView.getCount();
         //puts list of docs in ListView
         final SimpleCursorAdapter dAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfDocs, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final ListView docListView = (ListView) this.findViewById(R.id.docListView);
@@ -91,8 +94,23 @@ public class MainActivity extends Activity {
         docListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (fontListView.getCount() == 0){
+                    notExists.setMessage("Please create a font before starting or editing a document.");
+                    notExists.show();
+                }else {
+                    listOfDocs.moveToPosition(i);
+                    openDoc(listOfDocs.getString(1), i);
+                }
+            }
+        });
+        docListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("LongClick", "true");
                 listOfDocs.moveToPosition(i);
-                openDoc(listOfDocs.getString(1), i);
+                //TODO Make menu appear in center of screen to either rename or delete doc with document name shown at top
+//                deleteDoc(listOfDocs.getString(1));
+                return true;
             }
         });
 //        docListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -130,6 +148,7 @@ public class MainActivity extends Activity {
 ////        fontDelete.moveToFirst();
 ////        int id = fontIDDelete.getInt(0);
         //TODO remove image files of font
+        numFonts --;
         wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry._ID + " = " + id, null);
     }
 
@@ -163,6 +182,7 @@ public class MainActivity extends Activity {
                     ContentValues fontName = new ContentValues();
                     fontName.put(FontEntry.COLUMN_NAME_FONT_NAME, name);
                     wdb.insert("font", null, fontName);
+                    numFonts ++;
 
                     Cursor id = rdb.query(FontEntry.TABLE_NAME_FONT,
                             new String[]{FontEntry._ID},
@@ -195,6 +215,12 @@ public class MainActivity extends Activity {
     // If it does already exist, then a dialog is opened to notify user and take them
     // back to main screen.
     public void createDocument(View view){
+        if (numFonts == 0){
+            notExists.setMessage("Please create a font before starting a document.");
+            notExists.show();
+            return;
+        }
+
         //create Dialog box New Document
         AlertDialog.Builder nameDoc = new AlertDialog.Builder(this);
         nameDoc.setTitle("New Document");
@@ -227,7 +253,7 @@ public class MainActivity extends Activity {
                             int docID = id.getInt(0);
                             Intent type = new Intent(MainActivity.this, DocumentActivity.class);
                             type.putExtra("currentDoc", docNameGiven);
-                            type.putExtra("docID", docID);
+                            type.putExtra("docID", docID+1);
                             startActivity(type);
                         }else{
                             notExists.setMessage("Document Already Exists");
