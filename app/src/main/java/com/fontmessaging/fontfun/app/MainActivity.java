@@ -285,16 +285,19 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        switch (item.getItemId()){
-            case 0://rename
-                Log.d("context menu", info.position+"");
-                break;
-            case 1://delete
-                Log.d("context menu", "delete");
-                deleteFont(info.position);
-                fontListView.invalidate();
-                break;
+        int id = item.getActionView().getId();
+        if(id == R.id.fontListView) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            switch (item.getItemId()) {
+                case 0://rename
+                    Log.d("context menu", info.position + "");
+                    break;
+                case 1://delete
+                    Log.d("context menu", "delete");
+                    deleteFont(info.position);
+                    fontListView.invalidate();
+                    break;
+            }
         }
         return true;
     }
