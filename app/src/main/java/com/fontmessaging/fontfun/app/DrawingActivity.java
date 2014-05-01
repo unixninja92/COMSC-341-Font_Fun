@@ -101,6 +101,7 @@ public class DrawingActivity extends FragmentActivity {
         currentLetter = newChar;
         currentChar.setText(currentLetter.toString());
         fileName = fontId+"_"+(int)currentLetter+".png";
+        Log.d("drawing activity", "and the filename is " + fileName);
         try {
             cur = new File(getFilesDir(), fileName);
             if(cur.exists())

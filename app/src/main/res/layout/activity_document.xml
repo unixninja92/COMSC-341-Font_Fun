@@ -74,10 +74,15 @@
         android:textIsSelectable="true"
         android:text="@string/DocumentText" />
 
-    <com.fontmessaging.fontfun.app.DocumentView
+    <view
         android:layout_width="match_parent"
-        android:layout_height="700dp"
+        android:layout_height="match_parent"
+        class="com.fontmessaging.fontfun.app.DocumentView"
         android:id="@+id/documentView"
-        android:background="#FFFFFFFF"/>/>
+        android:layout_gravity="center_horizontal"
+        android:layout_weight=".01"
+        android:focusable="false"
+        android:background="#FFFFFFFF" />
+
 
 </LinearLayout>

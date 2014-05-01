@@ -62,9 +62,9 @@ public class DocumentActivity extends Activity {
         //***here.
         //***here.
         //***here.
-        /*Character currentLetter = 'A';
+        //Character currentLetter = 'A';
         documentImage = (DocumentView)findViewById(R.id.documentView);
-        Bitmap bMap = BitmapFactory.decodeFile("fontId+\"_\"+(int)currentLetter+\".png\"");
+       /*Bitmap bMap = BitmapFactory.decodeFile("fontId+\"_\"+(int)currentLetter+\".png\"");
         documentImage.setImageBitmap(bMap);*/
 
 
@@ -101,9 +101,8 @@ public class DocumentActivity extends Activity {
 
 
     public void saveDoc(View view){
-        //Log.d("Start Save", "inside saveDoc method");
-        documentText = simpleEditText.getText().toString(); //saves documentText only on click of save button. Changes in fontID are recorded as changed...for now.
-        //Log.d("Saving", "document text = " + documentText);
+        //saves documentText only on click of save button...for now
+        documentText = simpleEditText.getText().toString();
 
         ContentValues updatedRow = new ContentValues();
         updatedRow.put(FontEntry.COLUMN_NAME_FONT_ID, fontID);
