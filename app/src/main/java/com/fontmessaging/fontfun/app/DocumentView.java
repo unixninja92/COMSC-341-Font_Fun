@@ -18,6 +18,8 @@ public class DocumentView extends View {
     static final int FAKE_KERN = -50;
     Bitmap[] charMaps = new Bitmap[24];
     private Paint drawPaint;
+   // private Canvas canvas;
+    private String docText = "DOC TEXT HERE";
 
     public DocumentView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -29,10 +31,9 @@ public class DocumentView extends View {
 
     @Override
     protected void onDraw(Canvas canvas){
-        //int caller = getIntent().getIntExtra("button", 0); //is this for finding character?
-        //for tomorrow(setting up all asciis! and getting intent with info from database)
-
         super.onDraw(canvas);
+       // this.canvas = canvas;
+
         //how to find screen widths for given device? investigate later: int pixel=this.getWindowManager().getDefaultDisplay().getWidth()
         int screenWidth = 800;
         int screenMargin = screenWidth - (CHAR_WIDTH + FAKE_KERN);
@@ -40,15 +41,32 @@ public class DocumentView extends View {
         int paragraphSpacing = -30;
         int row = 0;
 
-        for (int i = 0; i < charMaps.length; i++){
-                row = xUnwrapped/screenMargin;
-                //Log.d("Document View", xUnwrapped + "/" + screenMargin + "=" + row);
-                canvas.drawBitmap(charMaps[i], (xUnwrapped % screenMargin), (CHAR_HEIGHT*row+paragraphSpacing*row), null);
-                xUnwrapped = xUnwrapped + CHAR_WIDTH + FAKE_KERN;
-                //Log.d("Document View", "you are on letter " + i + "and the cursor value is " + xUnwrapped);
+        //for(int i = 0; i < docText.length(); i++) {
+        int i = 0;
+            Log.d("Document View", "we are at index i of the text: " + i);
+            int currentAscii = (int) docText.charAt(i);
+            Log.d("DocumentView", "ascii for " + docText.charAt(i) + " is... " + currentAscii);
+            //capital letters
+            if (currentAscii >= 65 && currentAscii <= 90) {
+
+                Log.d("Document View", "you are on letter " + i + "and the cursor value is " + xUnwrapped);
+                //row = xUnwrapped / screenMargin;
+                //canvas.drawBitmap(charMaps[0], (xUnwrapped % screenMargin), (CHAR_HEIGHT*row+paragraphSpacing*row), null);
+                //xUnwrapped = xUnwrapped + CHAR_WIDTH + FAKE_KERN;
+
+            }
+        Log.d("Document View", "out");
+        //}
+        if (charMaps[1] == null){
+            Log.d("Document View", "lost it");
+        }else{
+            Log.d("Document View", "charmap found");
+            if (canvas == null){
+                Log.d("Document View", "null canvas");
+            }
+            canvas.drawBitmap(charMaps[1], 0, 0, null);
         }
 
-        //canvas.drawBitmap(charMaps[1], 0, 0, null);
     }
 
     public void init(){
@@ -65,15 +83,15 @@ public class DocumentView extends View {
                 Log.d("Document View", "bMap filled");
             }
         }
-
-        /*//loop through ASCII values and decode all non-empty files?
-        Character currentLetter = 'A';
-        int fontID = 1;
-        String fileName = fontID+"_"+(int)currentLetter+".png";
-        bMap = BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/"+fileName);
-        //bMap = BitmapFactory.decodeFile(Context.getFilesDir().getPath());
-        //example code adds to hashmap here.*/
-
-
     }
+
+    public void printString(String newDocText){
+        docText = newDocText;
+        //this.onDraw(canvas);
+    }
+
+
+
+
+
 }

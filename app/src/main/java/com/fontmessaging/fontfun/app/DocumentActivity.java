@@ -59,17 +59,12 @@ public class DocumentActivity extends Activity {
         simpleEditText = (EditText) findViewById(R.id.DocumentText);
         simpleEditText.setText(documentText);
 
-        //***here.
-        //***here.
-        //***here.
-        //Character currentLetter = 'A';
+
         documentImage = (DocumentView)findViewById(R.id.documentView);
-       /*Bitmap bMap = BitmapFactory.decodeFile("fontId+\"_\"+(int)currentLetter+\".png\"");
-        documentImage.setImageBitmap(bMap);*/
-
-
-
+        Log.d("Document Activity", "documentText = " + documentText);
+        documentImage.printString(documentText);
         //simpleEditText.setKey/OnKey Listener?
+
 
         //spinner listing all fonts.
         final Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
