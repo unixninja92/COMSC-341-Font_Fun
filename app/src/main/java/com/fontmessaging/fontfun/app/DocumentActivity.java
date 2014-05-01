@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.view.View;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ public class DocumentActivity extends Activity {
     private FontDbHelper db = new FontDbHelper(this);
     private SQLiteDatabase rdb;
     private SQLiteDatabase wdb;
+    protected DocumentView documentImage;
     private int docID;
     private int fontID;
     private String documentText;
@@ -54,6 +59,16 @@ public class DocumentActivity extends Activity {
         simpleEditText = (EditText) findViewById(R.id.DocumentText);
         simpleEditText.setText(documentText);
 
+        //***here.
+        //***here.
+        //***here.
+        //Character currentLetter = 'A';
+        documentImage = (DocumentView)findViewById(R.id.documentView);
+       /*Bitmap bMap = BitmapFactory.decodeFile("fontId+\"_\"+(int)currentLetter+\".png\"");
+        documentImage.setImageBitmap(bMap);*/
+
+
+
         //simpleEditText.setKey/OnKey Listener?
 
         //spinner listing all fonts.
@@ -72,6 +87,7 @@ public class DocumentActivity extends Activity {
                 fontID = adapterView.getSelectedItemPosition();
                 Log.d("Saving new font for doc", "fontID = " + fontID);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -81,10 +97,12 @@ public class DocumentActivity extends Activity {
     }
 
 
+
+
+
     public void saveDoc(View view){
-        //Log.d("Start Save", "inside saveDoc method");
-        documentText = simpleEditText.getText().toString(); //saves documentText only on click of save button. Changes in fontID are recorded as changed...for now.
-        //Log.d("Saving", "document text = " + documentText);
+        //saves documentText only on click of save button...for now
+        documentText = simpleEditText.getText().toString();
 
         ContentValues updatedRow = new ContentValues();
         updatedRow.put(FontEntry.COLUMN_NAME_FONT_ID, fontID);

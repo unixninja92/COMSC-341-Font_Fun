@@ -63,7 +63,7 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="91dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/DocumentText"
@@ -72,8 +72,17 @@
         android:enabled="true"
         android:focusable="true"
         android:textIsSelectable="true"
-        android:text="@string/DocumentText"
-        android:layout_weight="1.0" />
+        android:text="@string/DocumentText" />
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.fontmessaging.fontfun.app.DocumentView"
+        android:id="@+id/documentView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight=".01"
+        android:focusable="false"
+        android:background="#FFFFFFFF" />
 
 
 </LinearLayout>
