@@ -63,7 +63,7 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="91dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/DocumentText"
@@ -72,8 +72,12 @@
         android:enabled="true"
         android:focusable="true"
         android:textIsSelectable="true"
-        android:text="@string/DocumentText"
-        android:layout_weight="1.0" />
+        android:text="@string/DocumentText" />
 
+    <com.fontmessaging.fontfun.app.DocumentView
+        android:layout_width="match_parent"
+        android:layout_height="700dp"
+        android:id="@+id/documentView"
+        android:background="#FFFFFFFF"/>/>
 
 </LinearLayout>
