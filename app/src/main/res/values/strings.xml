@@ -2,17 +2,15 @@
 <resources>
 
     <string name="app_name">FontFun</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="hello_world">Hello world!!!</string>
-    <string name="greeting_2">Hi</string>
-    <string name="title_activity_drawing">DrawingActivity</string>
+    <string name="title_activity_main">Font Fun</string>
+    <string name="title_activity_drawing"></string>
+    <string name="title_activity_document"></string>
     <string name="pen">Pen</string>
     <string name="brush">Brush</string>
     <string name="eraser">Eraser</string>
     <string name="save">Save</string>
     <string name="fonts">Fonts</string>
     <string name="documents">Documents</string>
-    <string name="title_activity_document">DocumentActivity</string>
     <string name="action_settings">Settings</string>
     <string name="DocumentText"></string>
     <string name="send">Send</string>
@@ -26,7 +24,5 @@
         <item>medium</item>
         <item>large</item>
     </string-array>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
