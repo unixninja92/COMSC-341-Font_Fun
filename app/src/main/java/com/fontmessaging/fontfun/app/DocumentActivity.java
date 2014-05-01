@@ -44,6 +44,7 @@ public class DocumentActivity extends Activity {
                 FontEntry._ID+" = " +docID,
                 null, null, null, null);
         cur.moveToFirst();
+        Log.d("above error", "cur's first int = " + cur.getInt(0));
         fontID = cur.getInt(0);
         documentText = cur.getString(1);
 

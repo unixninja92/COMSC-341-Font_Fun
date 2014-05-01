@@ -220,7 +220,7 @@ public class MainActivity extends Activity {
                             //add to table.
                             ContentValues docEntry = new ContentValues();
                             docEntry.put(FontEntry.COLUMN_NAME_DOC_NAME, docNameGiven);
-                            docEntry.put(FontEntry.COLUMN_NAME_FONT_ID, 1);
+                            docEntry.put(FontEntry.COLUMN_NAME_FONT_ID, 0);
                             docEntry.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, "");
                             wdb.insert(FontEntry.TABLE_NAME_DOC, null, docEntry);
                             //open Doc from all documents
@@ -232,7 +232,7 @@ public class MainActivity extends Activity {
                             int docID = id.getInt(0);
                             Intent type = new Intent(MainActivity.this, DocumentActivity.class);
                             type.putExtra("currentDoc", docNameGiven);
-                            type.putExtra("docID", docID);
+                            type.putExtra("docID", docID+1);
                             startActivity(type);
                         }else{
                             notExists.setMessage("Document Already Exists");
