@@ -43,32 +43,27 @@ public class DocumentView extends View {
         int paragraphSpacing = -30;
         int row = 0;
 
-        //for(int i = 0; i < docText.length(); i++) {
-        int i = 0;
+        for(int i = 0; i < docText.length(); i++) {
+            //int i = 0;
             Log.d("Document View", "we are at index i of the text: " + i);
             int currentAscii = (int) docText.charAt(i);
             Log.d("DocumentView", "ascii for " + docText.charAt(i) + " is... " + currentAscii);
+
+            //currently, not numbers. however- using quick hack to make lowercase to uppercase for demo
+            if (currentAscii >= 97 && currentAscii <= 122) {
+                currentAscii = currentAscii - 32;
+            }
             //capital letters
             if (currentAscii >= 65 && currentAscii <= 90) {
-
                 Log.d("Document View", "you are on letter " + i + "and the cursor value is " + xUnwrapped);
-                //row = xUnwrapped / screenMargin;
-                //canvas.drawBitmap(charMaps[0], (xUnwrapped % screenMargin), (CHAR_HEIGHT*row+paragraphSpacing*row), null);
-                //xUnwrapped = xUnwrapped + CHAR_WIDTH + FAKE_KERN;
+                row = xUnwrapped / screenMargin;
+                if (charMaps[currentAscii - 65] != null) {
+                    canvas.drawBitmap(charMaps[currentAscii - 65], (xUnwrapped % screenMargin), (CHAR_HEIGHT * row + paragraphSpacing * row), null);
+                }
+                xUnwrapped = xUnwrapped + CHAR_WIDTH + FAKE_KERN;
 
             }
-        Log.d("Document View", "out");
-        //}
-        if (charMaps[1] == null){
-            Log.d("Document View", "lost it");
-        }else{
-            Log.d("Document View", "charmap found");
-            if (canvas == null){
-                Log.d("Document View", "null canvas");
-            }
-            canvas.drawBitmap(charMaps[1], 0, 0, null);
         }
-
     }
 
     public void init(){
@@ -93,7 +88,7 @@ public class DocumentView extends View {
 
     public void printString(String newDocText){
         docText = newDocText;
-        //this.onDraw(canvas);
+        invalidate();
     }
 
 

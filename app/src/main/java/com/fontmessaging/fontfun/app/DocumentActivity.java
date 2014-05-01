@@ -103,6 +103,8 @@ public class DocumentActivity extends Activity {
         updatedRow.put(FontEntry.COLUMN_NAME_FONT_ID, fontID);
         updatedRow.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, documentText);
         wdb.update(FontEntry.TABLE_NAME_DOC, updatedRow, FontEntry._ID + " = " + docID, null);
+
+        documentImage.printString(documentText);
     }
 
 }
