@@ -15,7 +15,7 @@ import android.view.View;
  */
 public class DocumentView extends View {
    // static String path = Context.getFilesDir().getPath();
-    Bitmap bMap;
+    Bitmap[] charMaps = new Bitmap[2];
     private Paint drawPaint;
 
     public DocumentView(Context context, AttributeSet attrs){
@@ -44,24 +44,35 @@ public class DocumentView extends View {
        // canvas.drawCircle(50, 50, 50, drawPaint);
 
        // canvas.drawColor(Color.BLACK);
-        canvas.drawBitmap(bMap, 0 / 2, 0 / 2, null);
+        canvas.drawBitmap(charMaps[1], 0 / 2, 0 / 2, null);
         //canvas.drawBitmap(bMap, 100, 100, null);
 
     }
 
     public void init(){
-        //loop through ASCII values and decode all non-empty files?
+        Character currentLetter = 'A';
+        int fontID = 1;
+        String fileName;
+
+        for(int i = 0; i < charMaps.length; i++){
+            fileName = fontID+"_"+(((int)currentLetter)+i)+".png";
+            charMaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/"+fileName), 100, 100, false);
+
+            if (charMaps[i] == null){
+                Log.d("Document View", "bMap null");
+            }else{
+                Log.d("Document View", "bMap filled");
+            }
+        }
+
+        /*//loop through ASCII values and decode all non-empty files?
         Character currentLetter = 'A';
         int fontID = 1;
         String fileName = fontID+"_"+(int)currentLetter+".png";
         bMap = BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/"+fileName);
         //bMap = BitmapFactory.decodeFile(Context.getFilesDir().getPath());
-        //example code adds to hashmap here.
+        //example code adds to hashmap here.*/
 
-        if (bMap == null){
-            Log.d("Document View", "bMap null");
-        }else{
-            Log.d("Document View", "bMap filled");
-        }
+
     }
 }
