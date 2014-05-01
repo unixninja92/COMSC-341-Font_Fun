@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import java.io.File;
+
 /**
  * Created by Nicole on 4/30/2014.
  */
@@ -76,7 +78,11 @@ public class DocumentView extends View {
 
         for(int i = 0; i < charMaps.length; i++){
             fileName = fontID+"_"+(((int)currentLetter)+i)+".png";
-            charMaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/"+fileName), CHAR_WIDTH, CHAR_HEIGHT, false);
+            File letter = new File("/data/data/com.fontmessaging.fontfun.app/files/"+fileName);
+            if(letter.exists())
+                charMaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/"+fileName), CHAR_WIDTH, CHAR_HEIGHT, false);
+            else
+                charMaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/"+fontID+"_67.png"), CHAR_WIDTH, CHAR_HEIGHT, false);
             if (charMaps[i] == null){
                 Log.d("Document View", "bMap null");
             }else{
