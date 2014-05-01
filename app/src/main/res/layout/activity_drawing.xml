@@ -103,13 +103,23 @@
             android:layout_weight=".5" />
     </LinearLayout>
 
-    <com.fontmessaging.fontfun.app.DrawingView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/drawingView"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:background="#FFFFFFFF"/>
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView" />
+
+        <com.fontmessaging.fontfun.app.DrawingView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/drawingView"
+            android:layout_gravity="center_horizontal"
+            android:background="#00FFFFFF"/>
+    </FrameLayout>
 
     <fragment
         android:layout_width="wrap_content"

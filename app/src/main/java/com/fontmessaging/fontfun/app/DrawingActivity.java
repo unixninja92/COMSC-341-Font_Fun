@@ -41,6 +41,7 @@ public class DrawingActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
+//        getActionBar().hide();
         //gets font name from MainActivity
         Intent intent = getIntent();
         String fontName = intent.getStringExtra("currentFont");
