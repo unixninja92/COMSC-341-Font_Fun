@@ -1,8 +1,9 @@
-<LinearLayout
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -26,11 +27,11 @@
                 android:id="@+id/textView"
                 android:gravity="center_vertical|center_horizontal"
                 android:textAlignment="gravity"
-                android:textSize="26dp" />
+                android:textSize="26sp" />
 
             <Space
-                android:layout_width="20px"
-                android:layout_height="20px"
+                android:layout_width="0dip"
+                android:layout_height="20dp"
                 android:layout_weight=".8" />
 
             <ImageButton
@@ -72,11 +73,11 @@
                 android:text="@string/documents"
                 android:id="@+id/textView2"
                 android:gravity="center_vertical"
-                android:textSize="26dp" />
+                android:textSize="26sp" />
 
             <Space
-                android:layout_width="20px"
-                android:layout_height="20px"
+                android:layout_width="0dip"
+                android:layout_height="20dp"
                 android:layout_weight=".8"
                 android:id="@+id/space" />
 
