@@ -146,6 +146,20 @@ public class MainActivity extends Activity{
         queryDocs();
     }
 
+    public void renameFont(int id, String newName) {
+        ContentValues rename = new ContentValues();
+        rename.put(FontEntry.COLUMN_NAME_FONT_NAME, newName);
+        wdb.update(FontEntry.TABLE_NAME_FONT, rename, FontEntry._ID+" = "+id,null);
+        queryFonts();
+    }
+
+    public void renameDoc(int id, String newName) {
+        ContentValues rename = new ContentValues();
+        rename.put(FontEntry.COLUMN_NAME_DOC_NAME, newName);
+        wdb.update(FontEntry.TABLE_NAME_DOC, rename, FontEntry._ID+" = "+id,null);
+        queryDocs();
+    }
+
     /*
     *   Starts DrawingActivity and quires user for new font name. If font already exists user is
     *   notified and kept at main screen.
@@ -296,6 +310,8 @@ public class MainActivity extends Activity{
                 switch (item.getItemId()) {
                     case 0://rename
                         Log.d("context menu", info.position + "");
+                        //TODO add dialog to ask for new name
+                        renameFont(getFontId(name),"new name");
                         break;
                     case 1://delete
 //                        Log.d("context menu", "delete");
