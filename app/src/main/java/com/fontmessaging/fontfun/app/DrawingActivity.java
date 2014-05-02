@@ -146,5 +146,4 @@ public class DrawingActivity extends FragmentActivity {
         brush.setTextColor(deselectedColor);
         draw.setErase();
     }
-    //TODO Have way of showing which tool is currently selected.
 }
