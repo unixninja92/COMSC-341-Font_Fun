@@ -1,6 +1,8 @@
 package com.fontmessaging.fontfun.app;
 
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.os.Debug;
 import android.util.Log;
 import android.view.View;
@@ -107,7 +109,7 @@ public class DrawingView extends View {
         pen = false;
         brush = false;
 
-        drawPaint.setColor(0xFFFFFFFF);
+        drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         drawPaint.setShadowLayer(0, 0, 0, 0xFF000000);
     }
 
@@ -119,7 +121,7 @@ public class DrawingView extends View {
         pen = false;
         erase = false;
 
-        drawPaint.setColor(0xFF000000);
+        drawPaint.setXfermode(null);
         drawPaint.setShadowLayer((int)(size/1.5), 0, 0, 0xFF000000);
     }
 
@@ -131,7 +133,7 @@ public class DrawingView extends View {
         brush = false;
         erase = false;
 
-        drawPaint.setColor(0xFF000000);
+        drawPaint.setXfermode(null);
         drawPaint.setShadowLayer(0, 0, 0, 0xFF000000);
     }
 
