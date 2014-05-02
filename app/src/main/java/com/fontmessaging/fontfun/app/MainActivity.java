@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.view.ContextMenu;
@@ -41,6 +43,10 @@ public class MainActivity extends Activity{
     private SQLiteDatabase wdb;
     protected AlertDialog.Builder notExists;
     protected ListView fontListView;
+    protected Cursor listOfFonts;
+    protected Cursor listOfDocs;
+    protected SimpleCursorAdapter fontAdapter;
+    protected SimpleCursorAdapter docAdapter;
     private int numFonts;
 
     @Override
@@ -58,25 +64,26 @@ public class MainActivity extends Activity{
         });
 
         //gets list of fonts
-        final Cursor listOfFonts = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
-        startManagingCursor(listOfFonts);
+        listOfFonts = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
+//        startManagingCursor(listOfFonts);
 
         //gets list of documents
-        final Cursor listOfDocs = rdb.query(FontEntry.TABLE_NAME_DOC, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_DOC_NAME}, null, null, null, null, null);
+        listOfDocs = rdb.query(FontEntry.TABLE_NAME_DOC, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_DOC_NAME}, null, null, null, null, null);
         startManagingCursor(listOfDocs);
 
         //puts list of fonts in ListView
-        final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfFonts, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        fontAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfFonts, new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         fontListView = (ListView) this.findViewById(R.id.fontListView);
-        fontListView.setAdapter(cAdapter);
+        fontListView.setAdapter(fontAdapter);
         registerForContextMenu(fontListView);
         fontListView.invalidate();
         numFonts = fontListView.getCount();
         //puts list of docs in ListView
-        final SimpleCursorAdapter dAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfDocs, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        docAdapter = new SimpleCursorAdapter(this, R.layout.list_entry, listOfDocs, new String[]{FontEntry.COLUMN_NAME_DOC_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final ListView docListView = (ListView) this.findViewById(R.id.docListView);
-        docListView.setAdapter(dAdapter);
+        docListView.setAdapter(docAdapter);
         registerForContextMenu(docListView);
+
 
         //opens fonts clicked
         fontListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,15 +93,6 @@ public class MainActivity extends Activity{
                 openFont(listOfFonts.getString(1), i);
             }
         });
-//        fontListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Log.d("LongClick", "true");
-//                listOfFonts.moveToPosition(i);
-////                deleteFont(listOfFonts.getString(1));
-//                return true;
-//            }
-//        });
 
         docListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,32 +106,14 @@ public class MainActivity extends Activity{
                 }
             }
         });
-        docListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("LongClick", "true");
-                listOfDocs.moveToPosition(i);
-                //TODO Make menu appear in center of screen to either rename or delete doc with document name shown at top
-//                deleteDoc(listOfDocs.getString(1));
-                return true;
-            }
-        });
-//        docListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Log.d("LongClick", "true");
-//                listOfDocs.moveToPosition(i);
-////                deleteDoc(listOfDocs.getString(1));
-//                return true;
-//            }
-//        });
     }
 
     public void openFont(String selectedItem, int pos) {
         Log.d("selected string", selectedItem);
         Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
         draw.putExtra("currentFont", selectedItem);
-        draw.putExtra("fontID", pos+1);
+        draw.putExtra("fontID", getFontId(selectedItem));
+        Log.d("fontID", getFontId(selectedItem) + "");
         startActivity(draw);
     }
 
@@ -146,7 +126,9 @@ public class MainActivity extends Activity{
     }
 
     public void deleteFont(int id) {
-        wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry._ID + " = " + id, null);
+        Log.d("delete font id", id + "");
+        wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry._ID + " = " + (id), null);
+        queryFonts();
         String filep1 = id+"_";
         String filep2 = ".png";
         for(int c = 48; c <= 122; c++){
@@ -191,12 +173,10 @@ public class MainActivity extends Activity{
                     wdb.insert("font", null, fontName);
                     numFonts ++;
 
-                    Cursor id = rdb.query(FontEntry.TABLE_NAME_FONT,
-                            new String[]{FontEntry._ID},
-                            FontEntry.COLUMN_NAME_FONT_NAME + " = '" + name + "'",
-                            null, null, null, null);
-                    id.moveToFirst();
-                    int fontID = id.getInt(0);
+                    queryFonts();
+
+                    int fontID = getFontId(name);
+                    Log.d(name, fontID+"");
                     Intent draw = new Intent(MainActivity.this, DrawingActivity.class);
                     draw.putExtra("currentFont", name);
                     draw.putExtra("fontID", fontID);
@@ -282,7 +262,9 @@ public class MainActivity extends Activity{
                                     ContextMenuInfo menuInfo) {
         if (v.getId()==R.id.fontListView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-            menu.setHeaderTitle("Font:");
+//            fontListView.getSelectedItem()
+            String font = ((TextView)((LinearLayout) info.targetView).getChildAt(0)).getText().toString();
+            menu.setHeaderTitle("Font: "+font);
             String[] menuItems = getResources().getStringArray(R.array.menu_array);
             for (int i = 0; i<menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
@@ -295,18 +277,34 @@ public class MainActivity extends Activity{
 //        int id = item.getActionView().getId();
 //        if(id == R.id.fontListView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            String font = ((TextView)((LinearLayout) info.targetView).getChildAt(0)).getText().toString();
             switch (item.getItemId()) {
                 case 0://rename
                     Log.d("context menu", info.position + "");
                     break;
                 case 1://delete
                     Log.d("context menu", "delete");
-                    deleteFont(info.position+1);
+                    deleteFont(getFontId(font));
                     fontListView.invalidate();
                     break;
             }
 //        }
         return true;
+    }
+
+    private void queryFonts(){
+        listOfFonts = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
+        fontAdapter.swapCursor(listOfFonts);
+//        return rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
+    }
+
+    private int getFontId(String name){
+        Cursor id = rdb.query(FontEntry.TABLE_NAME_FONT,
+                new String[]{FontEntry._ID},
+                FontEntry.COLUMN_NAME_FONT_NAME + " = '" + name + "'",
+                null, null, null, null);
+        id.moveToFirst();
+        return id.getInt(0);
     }
 }
 
