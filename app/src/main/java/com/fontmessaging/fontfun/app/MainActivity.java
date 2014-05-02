@@ -304,14 +304,28 @@ public class MainActivity extends Activity{
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        String name = ((TextView) ((LinearLayout) info.targetView).getChildAt(0)).getText().toString();
+        final String name = ((TextView) ((LinearLayout) info.targetView).getChildAt(0)).getText().toString();
+        AlertDialog.Builder rename = new AlertDialog.Builder(this);
+        final EditText renameInput = new EditText(this);
+        rename.setView(renameInput);
+        rename.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
         switch (contextId) {
             case R.id.fontListView:
                 switch (item.getItemId()) {
                     case 0://rename
-                        Log.d("context menu", info.position + "");
-                        //TODO add dialog to ask for new name
-                        renameFont(getFontId(name),"new name");
+                        rename.setTitle("Rename Font");
+                        rename.setMessage("New name of font:");
+                        rename.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                renameFont(getFontId(name), renameInput.getText().toString());
+                            }
+                        });
+                        rename.show();
                         break;
                     case 1://delete
 //                        Log.d("context menu", "delete");
@@ -322,6 +336,15 @@ public class MainActivity extends Activity{
             case R.id.docListView:
                 switch (item.getItemId()) {
                     case 0://rename
+                        rename.setTitle("Rename Document");
+                        rename.setMessage("New name of document:");
+                        rename.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                renameDoc(getDocId(name), renameInput.getText().toString());
+                            }
+                        });
+                        rename.show();
                         break;
                     case 1://delete
                         deleteDoc(getDocId(name));
