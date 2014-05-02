@@ -2,9 +2,11 @@ package com.fontmessaging.fontfun.app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,9 +23,11 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.TextView;
 
+import java.io.File;
+
 /*
 * font name based on http://www.raywenderlich.com/56109/make-first-android-app-part-2
-* 
+*
 * cursor and cursor adapter based on
 * https://thinkandroid.wordpress.com/2010/01/09/simplecursoradapters-and-listviews/
 * and http://www.vogella.com/tutorials/AndroidListView/article.html#cursor
@@ -31,8 +35,8 @@ import android.widget.TextView;
 * context menus base on
 * http://www.mikeplate.com/2010/01/21/show-a-context-menu-for-long-clicks-in-an-android-listview/
  */
-public class MainActivity extends Activity {
-    private FontDbHelper db = new FontDbHelper(this);
+public class MainActivity extends Activity{
+    private FontDbHelper db = FontDbHelper.getInstance(this);
     private SQLiteDatabase rdb;
     private SQLiteDatabase wdb;
     protected AlertDialog.Builder notExists;
@@ -56,6 +60,7 @@ public class MainActivity extends Activity {
         //gets list of fonts
         final Cursor listOfFonts = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
         startManagingCursor(listOfFonts);
+
         //gets list of documents
         final Cursor listOfDocs = rdb.query(FontEntry.TABLE_NAME_DOC, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_DOC_NAME}, null, null, null, null, null);
         startManagingCursor(listOfDocs);
@@ -141,15 +146,17 @@ public class MainActivity extends Activity {
     }
 
     public void deleteFont(int id) {
-//        Cursor fontIDDelete = rdb.query(FontEntry.TABLE_NAME_FONT,
-//                new String[]{FontEntry.COLUMN_NAME_FONT_NAME},
-//                FontEntry._ID+" = "+id,
-//                null, null, null, null);
-////        fontDelete.moveToFirst();
-////        int id = fontIDDelete.getInt(0);
-        //TODO remove image files of font
-        numFonts --;
         wdb.delete(FontEntry.TABLE_NAME_FONT, FontEntry._ID + " = " + id, null);
+        String filep1 = id+"_";
+        String filep2 = ".png";
+        for(int c = 48; c <= 122; c++){
+            File f = new File(getFilesDir(),filep1+c+filep2);
+            if(f.exists()) {
+                Log.d("Font Delete", f.getName());
+                f.delete();
+            }
+        }
+        numFonts --;
     }
 
     /*
@@ -285,8 +292,8 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        int id = item.getActionView().getId();
-        if(id == R.id.fontListView) {
+//        int id = item.getActionView().getId();
+//        if(id == R.id.fontListView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             switch (item.getItemId()) {
                 case 0://rename
@@ -294,11 +301,11 @@ public class MainActivity extends Activity {
                     break;
                 case 1://delete
                     Log.d("context menu", "delete");
-                    deleteFont(info.position);
+                    deleteFont(info.position+1);
                     fontListView.invalidate();
                     break;
             }
-        }
+//        }
         return true;
     }
 }

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import java.io.File;
 
 public class DocumentActivity extends Activity {
-    private FontDbHelper db = new FontDbHelper(this);
+    private FontDbHelper db = FontDbHelper.getInstance(this);
     private SQLiteDatabase rdb;
     private SQLiteDatabase wdb;
     protected DocumentView documentImage;

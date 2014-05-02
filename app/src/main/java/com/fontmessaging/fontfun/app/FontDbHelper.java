@@ -8,10 +8,14 @@ import android.provider.BaseColumns;
 /**
  * Created by charles on 4/24/14.
  * based on http://www.drdobbs.com/database/using-sqlite-on-android/232900584?pgno=2
+ *
+ * getInstance method based on
+ * https://stackoverflow.com/questions/21496221/sqlite-connection-object-leaked-android
  */
 public class FontDbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Font.db";
+    private static FontDbHelper mInstance = null;
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "Font.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ", ";
     private static final String SQL_CREATE_ENTRIES_FONT =
@@ -28,7 +32,14 @@ public class FontDbHelper extends SQLiteOpenHelper {
                     " )";
 
 
-    public FontDbHelper(Context context){
+    public static FontDbHelper getInstance(Context ctx) {
+        if(mInstance == null) {
+            mInstance = new FontDbHelper(ctx);
+        }
+        return mInstance;
+    }
+
+    private FontDbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

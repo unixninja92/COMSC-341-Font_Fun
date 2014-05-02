@@ -23,7 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 public class DrawingActivity extends FragmentActivity {
-    private FontDbHelper db = new FontDbHelper(this);
+    private FontDbHelper db = FontDbHelper.getInstance(this);
     private SQLiteDatabase rdb;
     protected Character currentLetter;
     protected DrawingView draw;
