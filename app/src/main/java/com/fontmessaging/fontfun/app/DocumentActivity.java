@@ -70,31 +70,27 @@ public class DocumentActivity extends Activity {
 
         //spinner listing all fonts.
         final Cursor cursor = rdb.query(FontEntry.TABLE_NAME_FONT, new String[] {FontEntry._ID, FontEntry.COLUMN_NAME_FONT_NAME}, null, null, null, null, null);
-        startManagingCursor(cursor);
-        SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry,cursor,
+//        startManagingCursor(cursor);
+        final SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry,cursor,
                 new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         final Spinner spinner = (Spinner) findViewById(R.id.fontSpinner);
         spinner.setAdapter(cAdapter);   // Apply the adapter to the spinner
-        spinner.setSelection(fontID);
 
         //changes font used in doc based on spinner item selected
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                int selectedItem = adapterView.getSelectedItemPosition();
-                TextView textView = (TextView)((LinearLayout)spinner.getSelectedView()).getChildAt(selectedItem);
-                String selectedN = textView.getText().toString();
+                cursor.moveToPosition(i);
+                Log.d("view type", spinner.getSelectedView().getClass().getName());
+                String selectedN = cursor.getString(1);
                 Log.d("document activity spinner", "spinner selected name = " + selectedN);
 
-                final Cursor findSelectedID = rdb.query(FontEntry.TABLE_NAME_FONT,
-                        new String[]{FontEntry._ID},
-                        FontEntry.COLUMN_NAME_FONT_NAME +" = '" + selectedN + "'",
-                        null, null, null, null);
-                findSelectedID.moveToFirst();
-                fontID = findSelectedID.getInt(0);
+//                final Cursor findSelectedID = rdb.query(FontEntry.TABLE_NAME_FONT, new String[]{FontEntry._ID}, FontEntry.COLUMN_NAME_FONT_NAME+" = '" +selectedN+"'", null, null, null, null);
+//                findSelectedID.moveToFirst();
+                fontID = cursor.getInt(0);
                 Log.d("Saving new font for doc", "fontID = " + fontID);
                 documentImage.printFont(fontID);
+
             }
 
             @Override
@@ -104,6 +100,7 @@ public class DocumentActivity extends Activity {
         });
 
         bar.setTitle(docName);
+        spinner.setSelection(fontID, true);
 
     }
 
