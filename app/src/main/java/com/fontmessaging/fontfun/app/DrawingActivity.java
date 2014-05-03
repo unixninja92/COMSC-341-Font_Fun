@@ -1,5 +1,6 @@
 package com.fontmessaging.fontfun.app;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -10,6 +11,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,20 +39,25 @@ public class DrawingActivity extends FragmentActivity {
     private int fontId;
     protected File  cur;
     private String fileName;
+    private ActionBar bar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
-//        getActionBar().hide();
+        bar = getActionBar();
         //gets font name from MainActivity
         Intent intent = getIntent();
         String fontName = intent.getStringExtra("currentFont");
         fontId = intent.getIntExtra("fontID", 1);
         rdb = db.getReadableDatabase();
 
+
+        bar.setTitle(fontName);
+
         draw = (DrawingView)this.findViewById(R.id.drawingView);
-        currentChar = (TextView) this.findViewById(R.id.currentLetter);
+//        currentChar = (TextView) this.findViewById(R.id.currentLetter);
         pen = (Button) this.findViewById(R.id.penButton);
         brush = (Button) this.findViewById(R.id.brushButton);
         eraser = (Button) this.findViewById(R.id.eraserButton);
@@ -61,14 +69,14 @@ public class DrawingActivity extends FragmentActivity {
 
 
         //Displays font name
-        TextView name = (TextView)this.findViewById(R.id.fontName);
+//        TextView name = (TextView)this.findViewById(R.id.fontName);
 //        Cursor currentFontCursor = rdb.query(
 //                FontEntry.TABLE_NAME_FONT,
 //                new String[] {FontEntry.COLUMN_NAME_FONT_NAME},
 //                FontEntry.COLUMN_CURRENT_FONT+" = 1",
 //                null, null, null, null);
 //        currentFontCursor.moveToFirst();
-        name.setText(fontName);
+//        name.setText(fontName);
 
         //setup size spinner with different sizes
         Spinner spinner = (Spinner) findViewById(R.id.size);
@@ -94,13 +102,21 @@ public class DrawingActivity extends FragmentActivity {
         });
 
         changeChar('A', false);
+//        bar.setSubtitle("A");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.drawing_activity_actions, menu);
+
+        return true;
     }
 
     public void changeChar(char newChar, boolean keep) {
         if(keep)
-            save(draw);
+            save(null);
         currentLetter = newChar;
-        currentChar.setText(currentLetter.toString());
+//        currentChar.setText(currentLetter.toString());
         fileName = fontId+"_"+(int)currentLetter+".png";
         Log.d("drawing activity", "and the filename is " + fileName);
         try {
@@ -114,7 +130,7 @@ public class DrawingActivity extends FragmentActivity {
         }
     }
 
-    public void save(View view){
+    public void save(MenuItem item){
         FileOutputStream curOut;
         try {
             curOut = openFileOutput(fileName, Context.MODE_PRIVATE);

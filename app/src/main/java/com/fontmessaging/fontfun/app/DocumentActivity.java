@@ -1,25 +1,23 @@
 package com.fontmessaging.fontfun.app;
 
+import android.app.ActionBar;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.view.View;
-import android.widget.GridView;
-import android.widget.ImageView;
+import android.widget.ShareActionProvider;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import java.io.File;
 
 public class DocumentActivity extends Activity {
     private FontDbHelper db = FontDbHelper.getInstance(this);
@@ -30,11 +28,14 @@ public class DocumentActivity extends Activity {
     private int fontID;
     private String documentText;
     private EditText simpleEditText;
+    private ShareActionProvider mShareActionProvider;
+    private ActionBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document);
+        bar = getActionBar();
 
         //gets document from MainActivity
         Intent intent = getIntent();
@@ -53,9 +54,6 @@ public class DocumentActivity extends Activity {
         fontID = cur.getInt(0);
         documentText = cur.getString(1);
 
-        //display document name & contents
-        TextView name = (TextView)this.findViewById(R.id.documentName);
-        name.setText(docName);
         
         simpleEditText = (EditText) findViewById(R.id.DocumentText);
         simpleEditText.setText(documentText);
@@ -109,13 +107,23 @@ public class DocumentActivity extends Activity {
             }
         });
 
+        bar.setTitle(docName);
+
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.document_activity_actions, menu);
 
+        MenuItem item = menu.findItem(R.id.menu_item_share);
 
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
 
-    public void saveDoc(View view){
+        return true;
+    }
+
+    public void saveDoc(MenuItem item){
         //saves documentText only on click of save button...for now
         documentText = simpleEditText.getText().toString();
 
@@ -125,6 +133,13 @@ public class DocumentActivity extends Activity {
         wdb.update(FontEntry.TABLE_NAME_DOC, updatedRow, FontEntry._ID + " = " + docID, null);
 
         documentImage.printString(documentText, fontID);
+    }
+
+    private void shareImage(){
+        Intent image = new Intent(Intent.ACTION_SEND);
+        image.setType("image/*");
+        if(mShareActionProvider != null)
+            mShareActionProvider.setShareIntent(image);
     }
 
 }
