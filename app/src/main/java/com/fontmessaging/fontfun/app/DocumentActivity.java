@@ -87,9 +87,9 @@ public class DocumentActivity extends Activity {
 
 //                final Cursor findSelectedID = rdb.query(FontEntry.TABLE_NAME_FONT, new String[]{FontEntry._ID}, FontEntry.COLUMN_NAME_FONT_NAME+" = '" +selectedN+"'", null, null, null, null);
 //                findSelectedID.moveToFirst();
-//                fontID = findSelectedID.getInt(0);
-                Log.d("Saving new font for doc", "fontID = " + cursor.getInt(0));
-                documentImage.printFont(cursor.getInt(0));
+                fontID = cursor.getInt(0);
+                Log.d("Saving new font for doc", "fontID = " + fontID);
+                documentImage.printFont(fontID);
 
             }
 
