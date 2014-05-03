@@ -49,7 +49,7 @@ public class DocumentActivity extends Activity {
                 FontEntry._ID+" = " +docID,
                 null, null, null, null);
         cur.moveToFirst();
-        Log.d("above error", "cur's first int = " + cur.getInt(0));
+        Log.d("Document Activity", "onCreate, fontID = " + cur.getInt(0));
         fontID = cur.getInt(0);
         documentText = cur.getString(1);
 
@@ -60,11 +60,11 @@ public class DocumentActivity extends Activity {
         simpleEditText = (EditText) findViewById(R.id.DocumentText);
         simpleEditText.setText(documentText);
 
-
-        documentImage = (DocumentView)findViewById(R.id.documentView);
         Log.d("Document Activity", "documentText = " + documentText);
-        documentImage.printString(documentText, fontID);
+        documentImage = (DocumentView)findViewById(R.id.documentView);
         Log.d("opening document in Doc Activity", "fontID = " + fontID);
+        documentImage.printString(documentText, fontID);
+
 
         //simpleEditText.setKey/OnKey Listener?
 
@@ -74,7 +74,7 @@ public class DocumentActivity extends Activity {
         startManagingCursor(cursor);
         SimpleCursorAdapter cAdapter = new SimpleCursorAdapter(this, R.layout.list_entry,cursor,
                 new String[]{FontEntry.COLUMN_NAME_FONT_NAME}, new int[] {R.id.name_entry}, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        Spinner spinner = (Spinner) findViewById(R.id.fontSpinner);
+        final Spinner spinner = (Spinner) findViewById(R.id.fontSpinner);
         spinner.setAdapter(cAdapter);   // Apply the adapter to the spinner
         spinner.setSelection(fontID);
 
@@ -82,9 +82,25 @@ public class DocumentActivity extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                fontID = adapterView.getSelectedItemPosition();
-                documentImage.printFont(fontID);
+
+                /*fontID = adapterView.getSelectedItemPosition();
+                Log.d("DocumentActivity", "saving new fontID = " + fontID + "based on spinner");
+                documentImage.printFont(fontID);*/
+
+                //TextView textView = (TextView)spinner.getSelectedView();
+                View viewN = spinner.getSelectedView();
+                String selectedN = viewN.toString();    //.getText().toString();
+                //int selectedItem = adapterView.getSelectedItemPosition();
+                //String selectedName = (String)spinner.getAdapter().getItem(selectedItem); //spinner.getSelectedItem().toString();
+                Log.d("document activity spinner", "spinner selected name = " + selectedN);
+                //int selectedID = spinner.getAdapter().getItem(selectedItem);
+
+                final Cursor findSelectedID = rdb.query(FontEntry.TABLE_NAME_FONT, new String[]{FontEntry._ID}, FontEntry.COLUMN_NAME_FONT_NAME+" = " +selectedN, null, null, null, null);
+                findSelectedID.moveToFirst();
+                fontID = findSelectedID.getInt(0);
                 Log.d("Saving new font for doc", "fontID = " + fontID);
+                documentImage.printFont(fontID);
+
             }
 
             @Override

@@ -100,7 +100,6 @@ public class DocumentView extends View {
         fontID = newFontID;
         docText = newDocText;
         Log.d("Document view", "font id set to " + fontID);
-        init();
         invalidate();
     }
 
