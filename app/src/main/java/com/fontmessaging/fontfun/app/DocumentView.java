@@ -18,7 +18,8 @@ public class DocumentView extends View {
     static final int CHAR_WIDTH = 100;
     static final int CHAR_HEIGHT = 100;
     static final int FAKE_KERN = -50;
-    Bitmap[] charMaps = new Bitmap[24];
+    Bitmap[] capMaps = new Bitmap[24];
+    Bitmap[] lowMaps = new Bitmap[24];
     private Paint drawPaint;
    // private Canvas canvas;
     int fontID = 0;
@@ -44,24 +45,27 @@ public class DocumentView extends View {
         int row = 0;
 
         for(int i = 0; i < docText.length(); i++) {
-            //int i = 0;
-            Log.d("Document View", "we are at index i of the text: " + i);
+            Log.d("Document View", "we are at index " + i + " of the text");
+
             int currentAscii = (int) docText.charAt(i);
             Log.d("DocumentView", "ascii for " + docText.charAt(i) + " is... " + currentAscii);
 
-            //currently, not numbers. however- using quick hack to make lowercase to uppercase for demo
+            //currently no numbers
+            //lowercase letters
             if (currentAscii >= 97 && currentAscii <= 122) {
-
+                row = xUnwrapped / screenMargin;
+                if (lowMaps[currentAscii - 97] != null) {
+                    canvas.drawBitmap(lowMaps[currentAscii - 97], (xUnwrapped % screenMargin), (CHAR_HEIGHT * row + paragraphSpacing * row), null);
+                }
+                xUnwrapped = xUnwrapped + CHAR_WIDTH + FAKE_KERN;
             }
             //capital letters
             else if (currentAscii >= 65 && currentAscii <= 90) {
-                Log.d("Document View", "you are on letter " + i + "and the cursor value is " + xUnwrapped);
                 row = xUnwrapped / screenMargin;
-                if (charMaps[currentAscii - 65] != null) {
-                    canvas.drawBitmap(charMaps[currentAscii - 65], (xUnwrapped % screenMargin), (CHAR_HEIGHT * row + paragraphSpacing * row), null);
+                if (capMaps[currentAscii - 65] != null) {
+                    canvas.drawBitmap(capMaps[currentAscii - 65], (xUnwrapped % screenMargin), (CHAR_HEIGHT * row + paragraphSpacing * row), null);
                 }
                 xUnwrapped = xUnwrapped + CHAR_WIDTH + FAKE_KERN;
-
             }
             else{ //if character is not supported, make a space
                 Log.d("Document View", "space or unknown character");
@@ -72,16 +76,29 @@ public class DocumentView extends View {
 
     public void init(){
         Log.d("Document view", "inside init. your font id is set to " + fontID);
-        Character currentLetter = 'A';
+        Character capA = 'A';
+        Character lowA = 'a';
         String fileName;
 
-        for(int i = 0; i < charMaps.length; i++) {
-            fileName = fontID + "_" + (((int) currentLetter) + i) + ".png";
+        for(int i = 0; i < capMaps.length; i++) {
+            fileName = fontID + "_" + (((int) capA) + i) + ".png";
             File letter = new File("/data/data/com.fontmessaging.fontfun.app/files/" + fileName);
             if (letter.exists()){
-                charMaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/" + fileName), CHAR_WIDTH, CHAR_HEIGHT, false);
+                capMaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/" + fileName), CHAR_WIDTH, CHAR_HEIGHT, false);
             }
-            if (charMaps[i] == null){
+            if (capMaps[i] == null){
+                Log.d("Document View", "bMap null");
+            }else{
+                Log.d("Document View", "bMap filled");
+            }
+        }
+        for(int i = 0; i < lowMaps.length; i++) {
+            fileName = fontID + "_" + (((int) lowA) + i) + ".png";
+            File letter = new File("/data/data/com.fontmessaging.fontfun.app/files/" + fileName);
+            if (letter.exists()){
+                lowMaps[i] = Bitmap.createScaledBitmap(BitmapFactory.decodeFile("/data/data/com.fontmessaging.fontfun.app/files/" + fileName), CHAR_WIDTH, CHAR_HEIGHT, false);
+            }
+            if (lowMaps[i] == null){
                 Log.d("Document View", "bMap null");
             }else{
                 Log.d("Document View", "bMap filled");
