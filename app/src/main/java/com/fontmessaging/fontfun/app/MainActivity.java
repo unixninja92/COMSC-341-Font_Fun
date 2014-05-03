@@ -122,6 +122,7 @@ public class MainActivity extends Activity{
         Intent type = new Intent(MainActivity.this, DocumentActivity.class);
         type.putExtra("currentDoc", selectedItem);
         type.putExtra("docID", getDocId(selectedItem));
+        type.putExtra("docPos", pos);
         startActivity(type);
     }
 

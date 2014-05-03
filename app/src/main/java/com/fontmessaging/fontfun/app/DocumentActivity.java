@@ -55,6 +55,16 @@ public class DocumentActivity extends Activity {
         fontID = cur.getInt(0);
         documentText = cur.getString(1);
 
+        Cursor f = rdb.query(FontEntry.TABLE_NAME_FONT, new String[]{FontEntry._ID}, null, null, null, null, null);
+        f.moveToFirst();
+        int pos = 0;
+        for(int i = 0; i < f.getCount(); i++){
+            f.moveToPosition(i);
+            if(f.getInt(0) == fontID){
+                pos = i;
+                break;
+            }
+        }
         
         simpleEditText = (EditText) findViewById(R.id.DocumentText);
         simpleEditText.setText(documentText);
@@ -87,10 +97,14 @@ public class DocumentActivity extends Activity {
 
 //                final Cursor findSelectedID = rdb.query(FontEntry.TABLE_NAME_FONT, new String[]{FontEntry._ID}, FontEntry.COLUMN_NAME_FONT_NAME+" = '" +selectedN+"'", null, null, null, null);
 //                findSelectedID.moveToFirst();
+                Log.i("old fontID", fontID+"");
                 fontID = cursor.getInt(0);
+                Log.i("new fontID", fontID+"");
                 Log.d("Saving new font for doc", "fontID = " + fontID);
                 documentImage.printFont(fontID);
+                saveDoc(null);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -98,7 +112,8 @@ public class DocumentActivity extends Activity {
         });
 
         bar.setTitle(docName);
-        spinner.setSelection(fontID, true);
+        spinner.setSelection(pos);
+//        spinner.getPositionForView()
 
     }
 
@@ -118,6 +133,8 @@ public class DocumentActivity extends Activity {
         //saves documentText only on click of save button...for now
         documentText = simpleEditText.getText().toString();
 
+
+        Log.i("saving fontID", fontID+"");
         ContentValues updatedRow = new ContentValues();
         updatedRow.put(FontEntry.COLUMN_NAME_FONT_ID, fontID);
         updatedRow.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, documentText);
