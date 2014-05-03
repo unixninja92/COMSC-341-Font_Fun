@@ -12,6 +12,19 @@
         android:layout_weight=".01"
         android:weightSum="1">
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="91dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/DocumentText"
+            android:layout_gravity="right"
+            android:editable="true"
+            android:enabled="true"
+            android:focusable="true"
+            android:textIsSelectable="true"
+            android:text="@string/DocumentText"
+            android:layout_weight="1" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -19,60 +32,7 @@
             android:id="@+id/fontSpinner"
             android:layout_weight="0" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight=".5" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Document Name"
-            android:id="@id/documentName"
-            android:layout_weight="0"
-            android:textAlignment="center" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight=".5" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/save"
-            android:layout_weight="0"
-            android:id="@+id/saveButton"
-            android:enabled="true"
-            android:onClick="saveDoc" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/send"
-            android:id="@+id/sendButton"
-            android:layout_weight="0"
-            android:clickable="false"
-            android:enabled="true" />
-
     </LinearLayout>
-
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="91dp"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/DocumentText"
-        android:layout_gravity="right"
-        android:editable="true"
-        android:enabled="true"
-        android:focusable="true"
-        android:textIsSelectable="true"
-        android:text="@string/DocumentText" />
 
     <view
         android:layout_width="match_parent"

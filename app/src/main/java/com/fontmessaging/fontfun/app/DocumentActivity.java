@@ -54,9 +54,6 @@ public class DocumentActivity extends Activity {
         fontID = cur.getInt(0);
         documentText = cur.getString(1);
 
-        //display document name & contents
-        TextView name = (TextView)this.findViewById(R.id.documentName);
-        name.setText(docName);
         
         simpleEditText = (EditText) findViewById(R.id.DocumentText);
         simpleEditText.setText(documentText);
