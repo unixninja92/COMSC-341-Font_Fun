@@ -29,11 +29,13 @@ public class DocumentActivity extends Activity {
     private String documentText;
     private EditText simpleEditText;
     private ShareActionProvider mShareActionProvider;
+    private ActionBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_document);
+        bar = getActionBar();
 
         //gets document from MainActivity
         Intent intent = getIntent();
@@ -92,6 +94,8 @@ public class DocumentActivity extends Activity {
             }
         });
 
+        bar.setTitle(docName);
+
     }
 
 
@@ -106,7 +110,7 @@ public class DocumentActivity extends Activity {
         return true;
     }
 
-    public void saveDoc(View view){
+    public void saveDoc(MenuItem item){
         //saves documentText only on click of save button...for now
         documentText = simpleEditText.getText().toString();
 
