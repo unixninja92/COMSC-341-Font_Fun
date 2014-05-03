@@ -63,7 +63,9 @@ public class DocumentActivity extends Activity {
 
         documentImage = (DocumentView)findViewById(R.id.documentView);
         Log.d("Document Activity", "documentText = " + documentText);
-        documentImage.printString(documentText);
+        documentImage.printString(documentText, fontID);
+        Log.d("opening document in Doc Activity", "fontID = " + fontID);
+
         //simpleEditText.setKey/OnKey Listener?
 
 
@@ -81,6 +83,7 @@ public class DocumentActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 fontID = adapterView.getSelectedItemPosition();
+                documentImage.printFont(fontID);
                 Log.d("Saving new font for doc", "fontID = " + fontID);
             }
 
@@ -105,7 +108,7 @@ public class DocumentActivity extends Activity {
         updatedRow.put(FontEntry.COLUMN_NAME_DOC_CONTENTS, documentText);
         wdb.update(FontEntry.TABLE_NAME_DOC, updatedRow, FontEntry._ID + " = " + docID, null);
 
-        documentImage.printString(documentText);
+        documentImage.printString(documentText, fontID);
     }
 
 }
