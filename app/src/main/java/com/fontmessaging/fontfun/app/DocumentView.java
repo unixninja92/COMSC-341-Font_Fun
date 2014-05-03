@@ -18,8 +18,8 @@ public class DocumentView extends View {
     static final int CHAR_WIDTH = 100;
     static final int CHAR_HEIGHT = 100;
     static final int FAKE_KERN = -50;
-    Bitmap[] capMaps = new Bitmap[24]; //capital letter maps
-    Bitmap[] lowMaps = new Bitmap[24]; //lower letter maps
+    Bitmap[] capMaps = new Bitmap[26]; //capital letter maps
+    Bitmap[] lowMaps = new Bitmap[26]; //lower letter maps
     Bitmap[] numMaps = new Bitmap[10]; //numbers
     //the symbols bitmap array would be special to accommodate skipping through Asciis
     private Paint drawPaint;
