@@ -18,8 +18,9 @@ public class DocumentView extends View {
     static final int CHAR_WIDTH = 100;
     static final int CHAR_HEIGHT = 100;
     static final int FAKE_KERN = -50;
-    Bitmap[] capMaps = new Bitmap[24];
-    Bitmap[] lowMaps = new Bitmap[24];
+    Bitmap[] capMaps = new Bitmap[24];  //capital letter maps
+    Bitmap[] lowMaps = new Bitmap[24]; //lower letter maps
+
     private Paint drawPaint;
    // private Canvas canvas;
     int fontID = 0;
@@ -51,6 +52,14 @@ public class DocumentView extends View {
             Log.d("DocumentView", "ascii for " + docText.charAt(i) + " is... " + currentAscii);
 
             //currently no numbers
+            /*if (currentAscii >= 48 && currentAscii <= 57) {
+                row = xUnwrapped / screenMargin;
+                if (lowMaps[currentAscii - 97] != null) {
+                    canvas.drawBitmap(lowMaps[currentAscii - 97], (xUnwrapped % screenMargin), (CHAR_HEIGHT * row + paragraphSpacing * row), null);
+                }
+                xUnwrapped = xUnwrapped + CHAR_WIDTH + FAKE_KERN;
+            }*/
+
             //lowercase letters
             if (currentAscii >= 97 && currentAscii <= 122) {
                 row = xUnwrapped / screenMargin;

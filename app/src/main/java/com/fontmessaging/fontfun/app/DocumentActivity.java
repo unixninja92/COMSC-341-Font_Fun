@@ -90,9 +90,7 @@ public class DocumentActivity extends Activity {
                 fontID = cursor.getInt(0);
                 Log.d("Saving new font for doc", "fontID = " + fontID);
                 documentImage.printFont(fontID);
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
