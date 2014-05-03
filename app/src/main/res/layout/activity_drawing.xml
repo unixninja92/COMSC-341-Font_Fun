@@ -6,53 +6,53 @@
     android:weightSum="1"
     tools:context=".DrawingActivity">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".01"
-        android:weightSum="1">
+    <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight=".01"-->
+        <!--android:weightSum="1">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Font Name"
-            android:id="@+id/fontName"
-            android:layout_weight="0.17"
-            android:textSize="20sp"
-            android:textAlignment="gravity"
-            android:gravity="center_vertical|center_horizontal"
-            android:width="40dp" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="Font Name"-->
+            <!--android:id="@+id/fontName"-->
+            <!--android:layout_weight="0.17"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textAlignment="gravity"-->
+            <!--android:gravity="center_vertical|center_horizontal"-->
+            <!--android:width="40dp" />-->
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.30" />
+        <!--<Space-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="0.30" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Current Letter"
-            android:id="@+id/currentLetter"
-            android:layout_weight="0.17"
-            android:textAlignment="center" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="Current Letter"-->
+            <!--android:id="@+id/currentLetter"-->
+            <!--android:layout_weight="0.17"-->
+            <!--android:textAlignment="center" />-->
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.25" />
+        <!--<Space-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="0.25" />-->
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:id="@+id/button"
-            android:layout_weight="0.10"
-            android:onClick="save" />
+        <!--<Button-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/save"-->
+            <!--android:id="@+id/button"-->
+            <!--android:layout_weight="0.10"-->
+            <!--android:onClick="save" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:orientation="horizontal"
